@@ -10,7 +10,7 @@ all: ${build_output} ${build_tool}
 
 ${build_output}:
 	cd ${build_path} && docker build -t mutectbuild . 
-	cd ${build_path} && docker run -v ${runtime_fullpath}:/data mutectbuild cp mutect-1.1.7.jar /data
+	docker run -v ${runtime_fullpath}:/data mutectbuild cp mutect-1.1.7.jar /data
 
 ${build_tool}: ${build_output}
 	cd ${runtime_path} && docker build -t computationalgenomicslab/mutect:1.1.7 . 

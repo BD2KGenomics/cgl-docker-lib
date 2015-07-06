@@ -4,7 +4,8 @@ MAINTAINER John Vivian, jtvivian@gmail.com
 
 RUN apt-get update && apt-get install -y \
 	git \
-	maven 
+	maven \
+	default-jdk
 
 # Create a new source directory
 WORKDIR /home
