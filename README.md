@@ -15,9 +15,9 @@ prepended by the standard Docker boilerplate:
 1. The Docker image should contain only the tool and the minimum dependencies needed to run that tool.
 2. The tool should be launched when the person runs the image without needing to know where the tool is located or how it is called. 
 3. All images should have a folder **/data** and have that folder set as the final `WORKDIR`. 
-4. More complex tools with many build dependencies should follow the guidelines in **Complex Tools**.  The general idea is to separate the build dependencies from runtime dependencies minimizing the final size of the deployed image. 
+4. More complex tools with many build dependencies should follow the guidelines in **Complex Tools**.  The general idea is to separate the build dependencies from runtime dependencies minimizing the final size of the deployed image.
 5. Building a tool should only require changing to the tool’s directory and typing make. All built images should conform to the tag standards set in section **Tag Conventions**.
-6. All tools should be lowercase in the github repo and follow the directory structure outlined in the figure below.
+6. All tools should be lowercase in the github repo and follow the directory structure outlined in the figure below. In this figure, **samtools** is a basic tool, while **mutect** is a *complex tool*. 
 
 <p align="center">
 <img align="center" src="http://i.imgur.com/VjPs1lv.png" width="400"#dir  />
@@ -34,14 +34,13 @@ Useful highlights:
 
 1. Don't do `RUN apt-get update` on a single line. Pair with `apt-get install` using `&&`. This is due to issues with how Docker caches.
 3. `CD` does not work intuitively. Use `WORKDIR` (absolute path).
-4. Always attempt to launch the tool via `ENTRYPOINT`. Always use the "exec", e.g. `["foo", "bar"]`
+4. Always attempt to launch the tool via `ENTRYPOINT`. Always use the "exec" form, e.g. `["foo", "bar"]`
 
 ### Complex Tools
 A *complex tool* is a tool that requires several build dependencies and fewer (or different) runtime dependencies.
 In the end, it is up to the developer to decide whether or not a tool should conform to the standards 
 we set for a complex tool, but if the end size of the image can be reduced or unneeded build dependencies 
-can be eliminated, it is preferred.  
-An example of a Makefile that orchestrates a build image, binary extraction, and runtime image can be seen below.
+can be eliminated, it is preferred. An example of a Makefile that orchestrates a build image, binary extraction, and runtime image can be seen below.
 
 ```
 # Definitions
