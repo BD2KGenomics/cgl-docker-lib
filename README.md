@@ -20,7 +20,7 @@ prepended by the standard Docker boilerplate:
 6. All tools should be lowercase in the github repo and follow the directory structure outlined in the figure below. In this figure, **samtools** is a basic tool, while **mutect** is a *complex tool*. 
 
 <p align="center">
-<img align="center" src="http://i.imgur.com/VjPs1lv.png" width="400"#dir  />
+<img align="center" src="http://i.imgur.com/ha6WXXT.png" width="400"#dir  />
 </p>
 
 
