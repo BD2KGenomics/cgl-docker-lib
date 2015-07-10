@@ -26,9 +26,7 @@ prepended by the standard Docker boilerplate:
 
 Dockerfile Structure
 ---------------------
-The de-facto guide to follow is available here:
-
-    https://docs.docker.com/articles/dockerfile_best-practices/
+The de-facto guide to follow is available [on Docker's website](https://docs.docker.com/articles/dockerfile_best-practices/).
 
 Useful highlights:
 
