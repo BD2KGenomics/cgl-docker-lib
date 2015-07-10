@@ -6,6 +6,7 @@ runtime_fullpath = $(realpath ${runtime_path})
 build_tool = runtime-container.DONE
 build_number ?= none
 git_commit ?= $(shell git rev-parse head)
+nametag = computationalgenomicslab/mutect:1.1.7--src--unstable--${git_commit}--${build_number}
 
 # Steps
 all: ${build_output} ${build_tool}
@@ -15,10 +16,10 @@ ${build_output}: ${build_path}/Dockerfile
 	docker run -v ${runtime_fullpath}:/data mutectbuild cp mutect-1.1.7.jar /data
 
 ${build_tool}: ${build_output} ${runtime_path}/Dockerfile
-	cd ${runtime_path} && docker build -t computationalgenomicslab/mutect:1.1.7--src--unstable--${git_commit}--${build_number} .
+	cd ${runtime_path} && docker build -t ${nametag} .
 	docker rmi -f mutectbuild
 	touch ${build_tool}
 
 push: all
 	# Requires ~/.dockercfg 
-	docker push computationalgenomicslab/mutect:1.1.7--src--unstable--${git_commit}--${build_number}
+	docker push ${nametag}
