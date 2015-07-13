@@ -88,7 +88,7 @@ If a tool is not being built by Jenkins the default for `jenkinsBuildNumber` sho
 All tools should be built with the unstable tag until ready to be merged into the Release branch 
 of the cgl-docker-lib repository.
 
-### `Latest` Tag and Version Tag
+### Latest Tag and Version Tag
 In an effort to make the software as accessible as possible, every tool should have a `latest` tag associated with at least one image of that tool.  It is imperative that the **Information** tab on Dockerhub pair the appropriate long-form tag to the `latest` tag as the latest tag provides no information to the user at all. 
 Also paired to each long-form tag should be a “version tag”.  This tag should only list the software version.
 
