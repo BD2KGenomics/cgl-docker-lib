@@ -5,6 +5,6 @@ nametag = computationalgenomicslab/samtools:0.1.19--deb--unstable--${git_commit}
 
 all: ${build_tool}
 
-${build_tool}: build/Dockerfile
+${build_tool}: Dockerfile
 	docker build -t ${nametag} .
 	touch ${build_tool}
