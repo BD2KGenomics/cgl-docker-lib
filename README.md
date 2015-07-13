@@ -15,9 +15,10 @@ prepended by the standard Docker boilerplate:
 1. The Docker image should contain only the tool and the minimum dependencies needed to run that tool.
 2. The tool should be launched when the person runs the image without needing to know where the tool is located or how it is called. 
 3. All images should have a folder **/data** and have that folder set as the final `WORKDIR`. 
-4. More complex tools with many build dependencies should follow the guidelines in **Complex Tools**.  The general idea is to separate the build dependencies from runtime dependencies minimizing the final size of the deployed image.
-5. Building a tool should only require changing to the tool’s directory and typing make. All built images should conform to the tag standards set in section **Tag Conventions**.
-6. All tools should be lowercase in the github repo and follow the directory structure outlined in the figure below. In this figure, **samtools** is a basic tool, while **mutect** is a *complex tool*. 
+4. Any scripts, jars, wrappers or other software should go in **/opt/cgl-docker-lib**
+5. More complex tools with many build dependencies should follow the guidelines in **Complex Tools**.  The general idea is to separate the build dependencies from runtime dependencies minimizing the final size of the deployed image.
+6. Building a tool should only require changing to the tool’s directory and typing make. All built images should conform to the tag standards set in section **Tag Conventions**.
+7. All tools should be lowercase in the github repo and follow the directory structure outlined in the figure below. In this figure, **samtools** is a basic tool, while **mutect** is a *complex tool*. 
 
 <p align="center">
 <img align="center" src="http://i.imgur.com/ha6WXXT.png" width="400"#dir  />
@@ -85,7 +86,14 @@ Tags will be used in two ways: to record as much information as possible about t
 
 If a tool is not being built by Jenkins the default for `jenkinsBuildNumber` should be **none**.  
 All tools should be built with the unstable tag until ready to be merged into the Release branch 
-of the cgl-docker-lib repository. 
+of the cgl-docker-lib repository.
+
+### `Latest` Tag and Version Tag
+In an effort to make the software as accessible as possible, every tool should have a `latest` tag associated with at least one image of that tool.  It is imperative that the **Information** tab on Dockerhub pair the appropriate long-form tag to the `latest` tag as the latest tag provides no information to the user at all. 
+Also paired to each long-form tag should be a “version tag”.  This tag should only list the software version.
+
+## Branches
+All tools should be on their own branch while under development.  Once an unstable version is ready, that branch should be rebased to the **Master** and once approved will be merged.  Only fully vetted and stable tools will be merged to the **Release** branch.  The **Release** branch is the only branch from which Jenkins will push tools to our group’s Dockerhub. 
 
 ## Standards Within the Docker Community
 
