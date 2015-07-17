@@ -5,7 +5,7 @@ build_output = ${runtime_path}/mutect-1.1.7.jar
 runtime_fullpath = $(realpath ${runtime_path})
 build_tool = runtime-container.DONE
 build_number ?= none
-git_commit ?= $(shell git rev-parse head)
+git_commit ?= $(shell git rev-parse HEAD)
 nametag = computationalgenomicslab/mutect:1.1.7--src--unstable--${git_commit}--${build_number}
 
 # Steps
