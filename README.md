@@ -1,4 +1,4 @@
-Containerizaton Standards for Tools in Docker
+Containerization Standards for Tools in Docker
 ====================
 
 
