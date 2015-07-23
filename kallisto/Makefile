@@ -5,7 +5,7 @@ build_output = ${runtime_path}/kallisto
 runtime_fullpath = $(realpath ${runtime_path})
 build_tool = runtime-container.DONE
 build_number ?= none
-git_commit ?= $(shell git rev-parse head)
+git_commit ?= $(shell git rev-parse HEAD)
 
 # Steps
 all: ${build_output} ${build_tool}
