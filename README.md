@@ -1,8 +1,8 @@
-Containerizaton Standards for Tools in Docker
+Containerization Standards for Tools in Docker
 ====================
 
 
-Basic Philosphy
+Basic Philosophy
 ---------------------
 
 The goal of encapsulating a genomics tool in a Docker container is to create 
