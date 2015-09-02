@@ -18,7 +18,8 @@ prepended by the standard Docker boilerplate:
 4. Any scripts, jars, wrappers or other software should go in **/opt/cgl-docker-lib**
 5. More complex tools with many build dependencies should follow the guidelines in **Complex Tools**.  The general idea is to separate the build dependencies from runtime dependencies minimizing the final size of the deployed image.
 6. Building a tool should only require changing to the tool’s directory and typing make. All built images should conform to the tag standards set in section **Tag Conventions**.
-7. All tools should be lowercase in the github repo and follow the directory structure outlined in the figure below. In this figure, **samtools** is a basic tool, while **mutect** is a *complex tool*. 
+7. Every image should have an `ENTRYPOINT` set to a wrapper script. (see **Wrapper Script**)   
+8. All tools should be lowercase in the github repo and follow the directory structure outlined in the figure below. In this figure, **samtools** is a basic tool, while **mutect** is a *complex tool*. 
 
 <p align="center">
 <img align="center" src="http://i.imgur.com/ha6WXXT.png" width="400"#dir  />
@@ -94,6 +95,17 @@ Also paired to each long-form tag should be a “version tag”.  This tag shoul
 
 ## Branches
 All tools should be on their own branch while under development.  Once an unstable version is ready, that branch should be rebased to the **Master** and once approved will be merged.  Only fully vetted and stable tools will be merged to the **Release** branch.  The **Release** branch is the only branch from which Jenkins will push tools to our group’s Dockerhub. 
+
+## Wrapper Script
+Every image should have a wrapper script set as the `ENTRYPOINT` which handles launching the tool (with parameters), and importantly, changing the ownership of all output files to the owner of the mounted **/data** directory.  This wrapper script allows all kinds of flexibility, as the example below shows the wrapper script handling ownership of output files from root to the host user as well as using environment variables to allow an infinite number of java options to be passed during jar execution. An example of a wrapper script for gatk is shown below:
+```
+#!/usr/bin/env bash
+# Call tool with parameters
+java $JAVA_OPTS -jar /opt/cgl-docker-lib/gatk.jar "$@"
+# Fix ownership of output files
+UID=$(stat -c '%u' /data)
+chown -R $UID /data
+```
 
 ## Standards Within the Docker Community
 
