@@ -1,6 +1,8 @@
 Containerization Standards for Tools in Docker
 ====================
 
+[![Join the chat at https://gitter.im/BD2KGenomics/cgl-docker-lib](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/BD2KGenomics/cgl-docker-lib?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 
 Basic Philosophy
 ---------------------
