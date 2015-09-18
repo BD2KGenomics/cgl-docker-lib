@@ -13,9 +13,9 @@ prepended by the standard Docker boilerplate:
     Docker run <Repo/Tool:tag> [Parameters]
 
 1. The Docker image should contain only the tool and the minimum dependencies needed to run that tool.
-2. The tool should be launched when the person runs the image without needing to know where the tool is located or how it is called. 
+2. The tool should be launched when the person runs the image without needing to know where the tool is located or how it is called. If no parameters are passed, the user should be presented with the tool's help menu.
 3. All images should have a folder **/data** and have that folder set as the final `WORKDIR`. 
-4. Any scripts, jars, wrappers or other software should go in **/opt/cgl-docker-lib**
+4. Any scripts, jars, wrappers or other software should go in **/opt/<tool name>**
 5. More complex tools with many build dependencies should follow the guidelines in **Complex Tools**.  The general idea is to separate the build dependencies from runtime dependencies minimizing the final size of the deployed image.
 6. Building a tool should only require changing to the tool’s directory and typing make. All built images should conform to the tag standards set in section **Tag Conventions**.
 7. Every image should have an `ENTRYPOINT` set to a wrapper script. (see **Wrapper Script**)   
@@ -104,7 +104,8 @@ Every image should have a wrapper script set as the `ENTRYPOINT` which handles l
 java $JAVA_OPTS -jar /opt/cgl-docker-lib/gatk.jar "$@"
 # Fix ownership of output files
 UID=$(stat -c '%u' /data)
-chown -R $UID /data
+GID=$(stat -c '%g' / data)
+chown -R $UID:$GID /data
 ```
 
 ## Standards Within the Docker Community
