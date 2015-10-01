@@ -3,7 +3,11 @@ FROM ubuntu
 MAINTAINER Frank Austin Nothaft, fnothaft@berkeley.edu
 
 RUN apt-get update && \
-  apt-get install -y python libnss3 openjdk-7-jre-headless curl
+  apt-get install -y \
+    python \
+    libnss3 \
+    openjdk-7-jre-headless \
+    curl
 
 # pull down spark jar
 RUN mkdir /opt/apache-spark && \

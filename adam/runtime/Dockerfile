@@ -3,8 +3,7 @@ FROM ubuntu
 MAINTAINER Frank Austin Nothaft, fnothaft@berkeley.edu
 
 # install jdk-7
-RUN apt-get update
-RUN apt-get install -y openjdk-7-jdk
+RUN apt-get update && apt-get install -y openjdk-7-jdk
 
 # copy jar
 RUN mkdir /opt/cgl-docker-lib
