@@ -1,7 +1,7 @@
 build_tool = runtime-container.DONE
 build_number ?= none
 git_commit ?= $(shell git rev-parse HEAD)
-nametag = computationalgenomicslab/picardtools:1.95--deb--unstable--${git_commit}--${build_number}
+nametag = quay.io/ucsc_cgl/picardtools:1.95--${git_commit}
 
 all: ${build_tool}
 

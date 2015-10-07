@@ -6,7 +6,7 @@ runtime_fullpath = $(realpath ${runtime_path})
 build_tool = runtime-container.DONE
 build_number ?= none
 git_commit ?= $(shell git rev-parse HEAD)
-nametag = computationalgenomicslab/bwa:0.7.12--src--unstable--${git_commit}--${build_number}
+nametag = quay.io/ucsc_cgl/bwa:0.7.12--${git_commit}
 
 # Steps
 all: ${build_output} ${build_tool}

@@ -6,7 +6,7 @@ runtime_fullpath = $(realpath ${runtime_path})
 build_tool = runtime-container.DONE
 build_number ?= none
 git_commit ?= $(shell git rev-parse HEAD)
-nametag = computationalgenomicslab/mutect:1.1.7--src--unstable--${git_commit}--${build_number}
+nametag = quay.io/ucsc_cgl/mutect:1.1.7--${git_commit}
 
 # Steps
 all: ${build_output} ${build_tool}

@@ -1,7 +1,7 @@
 build_tool = runtime-container.DONE
 build_number ?= none
 git_commit ?= $(shell git rev-parse HEAD)
-nametag = computationalgenomicslab/samtools:0.1.19--deb--unstable--${git_commit}--${build_number}
+nametag = quay.io/ucsc_cgl/samtools:0.1.19--${git_commit}
 
 all: ${build_tool}
 
