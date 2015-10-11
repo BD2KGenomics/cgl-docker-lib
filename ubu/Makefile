@@ -1,9 +1,22 @@
 build_tool = runtime-container.DONE
-build_number ?= none
 git_commit ?= $(shell git rev-parse head)
+name = quay.io/ucsc_cgl/ubu
+tag = 1.2--${git_commit}
 
-all: ${build_tool}
+build: ${build_tool}
 
 ${build_tool}: Dockerfile
-	docker build -t quay.io/ucsc_cgl/ubu:1.2--${git_commit}
+	docker build -t ${name}:${tag} .
+	docker tag ${name}:${tag} ${name}:latest
 	touch ${build_tool}
+
+push: build
+	# Requires ~/.dockercfg
+	docker push ${name}:{tag}
+	docker push ${name}:latest
+
+test: build
+	python test.py
+
+clean:
+	-rm ${build_tool}
