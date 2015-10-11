@@ -15,7 +15,7 @@ ${build_output}: build/Dockerfile
 
 ${build_tool}: ${build_output} build/Dockerfile
 	cd build && docker build -t ${name}:${tag} .
-	docker tag ${name}:${tag} ${name}:latest
+	docker tag -f ${name}:${tag} ${name}:latest
 	docker rmi -f mutectbuild
 	touch ${build_tool}
 

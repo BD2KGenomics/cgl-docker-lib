@@ -7,7 +7,7 @@ build: ${build_tool}
 
 ${build_tool}: Dockerfile
 	docker build -t ${name}:${tag} .
-	docker tag ${name}:${tag} ${name}:latest
+	docker tag -f ${name}:${tag} ${name}:latest
 	touch ${build_tool}
 
 push: build

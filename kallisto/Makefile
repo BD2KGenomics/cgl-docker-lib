@@ -15,7 +15,7 @@ ${build_output}: build/Dockerfile
 
 ${build_tool}: ${build_output} runtime/Dockerfile
 	cd runtime && docker build -t ${name}:${tag} .
-	docker tag ${name}:${tag} ${name}:latest
+	docker tag -f ${name}:${tag} ${name}:latest
 	docker rmi -f kallistobuild
 	touch ${build_tool}
 
