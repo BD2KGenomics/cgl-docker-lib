@@ -1,10 +1,22 @@
 build_tool = runtime-container.DONE
-build_number ?= none
 git_commit ?= $(shell git rev-parse HEAD)
-nametag = quay.io/ucsc_cgl/picardtools:1.95--${git_commit}
+name = quay.io/ucsc_cgl/picardtools
+tag = 1.95--${git_commit}
 
-all: ${build_tool}
+build: ${build_tool}
 
 ${build_tool}: Dockerfile
-	docker build -t ${nametag} .
+	docker build -t ${name}:${tag} .
+	docker tag ${name}:${tag} ${name}:latest
 	touch ${build_tool}
+
+push: build
+	# Requires ~/.dockercfg
+	docker push ${name}:{tag}
+	docker push ${name}:latest
+
+test: build
+	python test.py
+
+clean:
+	-rm ${build_tool}
