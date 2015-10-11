@@ -12,7 +12,7 @@ ${build_tool}: Dockerfile
 
 push: build
 	# Requires ~/.dockercfg
-	docker push ${name}:{tag}
+	docker push ${name}:${tag}
 	docker push ${name}:latest
 
 test: build

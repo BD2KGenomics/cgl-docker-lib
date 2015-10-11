@@ -21,7 +21,7 @@ ${build_tool}: ${build_output} ${runtime_path}/Dockerfile
 
 push: build
 	# Requires ~/.dockercfg
-	docker push ${name}:{tag}
+	docker push ${name}:${tag}
 	docker push ${name}:latest
 
 test: build
