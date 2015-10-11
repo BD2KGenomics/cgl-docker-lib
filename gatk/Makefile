@@ -1,25 +1,32 @@
 # Definitions
-build_path = build/
-runtime_path = runtime/
-build_output = ${runtime_path}/gatk.jar
-runtime_fullpath = $(realpath ${runtime_path})
+build_output = runtime/gatk.jar
+runtime_fullpath = $(realpath runtime)
 build_tool = runtime-container.DONE
-build_number ?= none
 git_commit ?= $(shell git rev-parse HEAD)
-nametag = quay.io/ucsc_cgl/gatk:3.4--${git_commit}
+name = quay.io/ucsc_cgl/gatk
+tag = 3.4--${git_commit}
 
 # Steps
-all: ${build_output} ${build_tool}
+build: ${build_output} ${build_tool}
 
-${build_output}: ${build_path}/Dockerfile
-	cd ${build_path} && docker build -t gatkbuild .
+${build_output}: build/Dockerfile
+	cd build && docker build -t gatkbuild .
 	docker run -v ${runtime_fullpath}:/data gatkbuild cp gatk.jar /data
 
-${build_tool}: ${build_output} ${runtime_path}/Dockerfile
-	cd ${runtime_path} && docker build -t ${nametag} .
+${build_tool}: ${build_output} runtime/Dockerfile
+	cd runtime && docker build -t ${name}:${tag} .
+	docker tag -f ${name}:${tag} ${name}:latest
 	docker rmi -f gatkbuild
 	touch ${build_tool}
 
-push: all
+push: build
 	# Requires ~/.dockercfg
-	docker push ${nametag}
+	docker push ${name}:{tag}
+	docker push ${name}:latest
+
+test: build
+	python test.py
+
+clean:
+	-rm ${build_tool}
+	-rm ${build_output}
