@@ -13,7 +13,7 @@ ${build_output}: build/Dockerfile
 	cd build && docker build -t bwabuild .
 	docker run -v ${runtime_fullpath}:/data bwabuild cp bwa /data
 
-${build_tool}: ${build_output} ${runtime_path}/Dockerfile
+${build_tool}: ${build_output} runtime/Dockerfile
 	cd runtime && docker build -t ${name}:${tag} .
 	docker tag -f ${name}:${tag} ${name}:latest
 	docker rmi -f bwabuild
