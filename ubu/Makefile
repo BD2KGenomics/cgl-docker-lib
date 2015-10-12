@@ -1,5 +1,5 @@
 build_tool = runtime-container.DONE
-git_commit ?= $(shell git rev-parse head)
+git_commit ?= $(shell git rev-parse HEAD)
 name = quay.io/ucsc_cgl/ubu
 tag = 1.2--${git_commit}
 
