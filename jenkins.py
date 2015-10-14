@@ -27,10 +27,9 @@ def get_updated_tools(repos):
         tags = sum([x['tags'] for x in json_data['images'] if x['tags']], [])
         tags = {str(x).split('--')[1] for x in tags if not x == 'latest'}
         # Fetch current git tag using `git log`
-        p1 = subprocess.Popen(['git', 'log', '--pretty=oneline', '-n', '1'], stdout=subprocess.PIPE, cwd=os.path.abspath(tool))
-        commit, comment = p1.stdout.read().strip().split(" ", 1)
+        p1 = subprocess.Popen(['git', 'log', '--pretty=oneline', '-n', '1', '--', tool], stdout=subprocess.PIPE)
+        commit, comment = p1.stdout.read().split(" ", 1)
         if commit not in tags:
-            print tool, commit, tags
             updated_tools.add(tool)
     return updated_tools
 
