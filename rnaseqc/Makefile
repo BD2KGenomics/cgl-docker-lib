@@ -1,5 +1,5 @@
 build_tool = runtime-container.DONE
-git_commit ?= $(shell git rev-parse HEAD)
+git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../rnaseqc | cut -f1 -d " ")
 name = quay.io/ucsc_cgl/rnaseqc
 tag = 1.1.8--${git_commit}
 

@@ -2,7 +2,7 @@
 build_output = build/mutect-1.1.7.jar
 runtime_fullpath = $(realpath build)
 build_tool = runtime-container.DONE
-git_commit ?= $(shell git rev-parse HEAD)
+git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../mutect | cut -f1 -d " ")
 name = quay.io/ucsc_cgl/mutect
 tag = 1.1.7--${git_commit}
 

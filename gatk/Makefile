@@ -2,7 +2,7 @@
 build_output = runtime/gatk.jar
 runtime_fullpath = $(realpath runtime)
 build_tool = runtime-container.DONE
-git_commit ?= $(shell git rev-parse HEAD)
+git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../gatk | cut -f1 -d " ")
 name = quay.io/ucsc_cgl/gatk
 tag = 3.4--${git_commit}
 

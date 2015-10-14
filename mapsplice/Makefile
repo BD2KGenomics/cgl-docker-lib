@@ -2,7 +2,7 @@
 build_output = runtime/MapSplice-v2.1.8
 runtime_fullpath = $(realpath runtime)
 build_tool = runtime-container.DONE
-git_commit ?= $(shell git rev-parse HEAD)
+git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../mapsplice | cut -f1 -d " ")
 name = quay.io/ucsc_cgl/mapsplice
 tag = 2.1.8--${git_commit}
 

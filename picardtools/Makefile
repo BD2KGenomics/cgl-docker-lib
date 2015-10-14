@@ -1,5 +1,5 @@
 build_tool = runtime-container.DONE
-git_commit ?= $(shell git rev-parse HEAD)
+git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../picardtools | cut -f1 -d " ")
 name = quay.io/ucsc_cgl/picardtools
 tag = 1.95--${git_commit}
 
