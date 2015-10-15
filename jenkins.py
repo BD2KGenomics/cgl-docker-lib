@@ -1,9 +1,17 @@
 #!/usr/bin/env python2.7
 # John Vivian
-# 10-11-15
+# 10-14-15
 """
 Builds tools whose most recent commit does not exist on our quay.io account,
 runs unittests and pushes image to quay.io.
+
+Dependencies
+    Docker (>1.0)
+    python2.7
+
+Requires
+    ~/.dockercfg (with privileges to quay.io/ucsc_cgl/)
+    ~/.cgl-docker-lib (containing the quay.io access token need to authenticate POST requests)
 """
 import os
 import subprocess
@@ -14,7 +22,7 @@ import json
 def get_updated_tools(repos):
     """
     Compare latest git commit hash of a tool to the existing tag on quay.io.
-    Since tools are tagged with motif: <version>--<commit hash>, we can determine
+    Since tools are tagged with the motif: <version>--<commit hash>, we can determine
     what tools have been modified.
     """
     updated_tools = set()
@@ -23,12 +31,12 @@ def get_updated_tools(repos):
         response = requests.get('https://quay.io/api/v1/repository/ucsc_cgl/{}/image/'.format(tool))
         json_data = json.loads(response.text)
         assert response.status_code == 200, 'Quay.io API Request to view repository: {}, has failed'.format(tool)
-        # Fetch quay.io tags
+        # Fetch quay.io tags and parse for commit hash
         tags = sum([x['tags'] for x in json_data['images'] if x['tags']], [])
         tags = {str(x).split('--')[1] for x in tags if not x == 'latest'}
-        # Fetch current git tag using `git log`
-        p1 = subprocess.Popen(['git', 'log', '--pretty=oneline', '-n', '1', '--', tool], stdout=subprocess.PIPE)
-        commit, comment = p1.stdout.read().split(" ", 1)
+        # Fetch last commit hash for tool using `git log`
+        p = subprocess.Popen(['git', 'log', '--pretty=oneline', '-n', '1', '--', tool], stdout=subprocess.PIPE)
+        commit, comment = p.stdout.read().split(" ", 1)
         if commit not in tags:
             updated_tools.add(tool)
     return updated_tools
@@ -55,7 +63,11 @@ def run_make(tools_to_build, cmd, err):
         assert ret_code == 0, err.format(tool)
 
 
-def make_repos_public(tools_to_build, credentials=''):
+def make_repos_public(tools_to_build, credentials):
+    """
+    For each tool, submit a POST request to make the tool repository public
+    using credentials loated in ~/.cgl-docker-lib.
+    """
     with open(credentials, 'r') as f:
         token = f.read().strip()
     for tool in tools_to_build:
@@ -68,19 +80,19 @@ def make_repos_public(tools_to_build, credentials=''):
 
 
 def main():
+    # Determine what tools to build
     tools = {x for x in os.listdir('.') if os.path.isdir(x) and not x.startswith('.')}
     repos = get_repos()
     updated_tools = get_updated_tools(repos)
-
     tools_to_build = (tools - repos).union(updated_tools)
     print 'Building Tools: ' + ' '.join(tools_to_build)
-
+    # Build, test, and push tools to quay.io/ucsc_cgl/
     cmds = [["make"], ["make", "test"], ["make", "push"]]
     errs = ['Tool: {}, failed to build', 'Tool: {}, failed unittest', 'Tool: {}, failed push to quay.io']
     for cmd, err in zip(*[cmds, errs]):
         run_make(tools_to_build, cmd, err)
-    # FIXME: Before deployment to jenkins fix path
-    make_repos_public(tools_to_build, credentials='/Users/Jvivian/.cgl-docker-lib')
+    credentials = os.path.join(os.path.expanduser('~'), '.cgl-docker-lib')
+    make_repos_public(tools_to_build, credentials=credentials)
 
 
 if __name__ == '__main__':
