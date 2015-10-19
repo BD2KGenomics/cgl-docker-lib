@@ -21,7 +21,7 @@ prepended by the standard Docker boilerplate:
 5. More complex tools with many build dependencies should follow the guidelines in **Complex Tools**.  The general idea is to separate the build dependencies from runtime dependencies minimizing the final size of the deployed image.
 6. Building a tool from source should only require changing to the tool’s directory and typing make. All built images should conform to the tag standards set in section **Tag Conventions**.
 7. Every image should have an `ENTRYPOINT` set to a wrapper script. (see **Wrapper Script**)   
-8. All tools should be lowercase in the github repo and follow the directory structure outlined in the figure below. In this figure, **samtools** is a basic tool, while **mutect** is a *complex tool*. 
+8. All tools should be lowercase in the github repo and follow the directory structure outlined in the figure below. In this figure, **samtools** is a basic tool, while **bwa** is a *complex tool*. 
 
 <p align="center">
 <img align="center" src="http://i.imgur.com/j4kracV.png" width="400"#dir  />
