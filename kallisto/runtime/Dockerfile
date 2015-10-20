@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu:12.04
 
 MAINTAINER Aashish Jain, 17AashishJ@students.harker.org
 

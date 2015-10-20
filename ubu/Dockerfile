@@ -1,4 +1,4 @@
-FROM java
+FROM java:8-jdk
 
 MAINTAINER Aashish Jain, 17AashishJ@students.harker.org
 

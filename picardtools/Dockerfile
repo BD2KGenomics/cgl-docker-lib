@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu:12.04
 
 MAINTAINER John Vivian, jtvivian@gmail.com
 
