@@ -4,13 +4,13 @@ runtime_fullpath = $(realpath runtime)
 build_tool = runtime-container.DONE
 git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../kallisto | cut -f1 -d " ")
 name = quay.io/ucsc_cgl/kallisto
-tag = 0.42.2.1--${git_commit}
+tag = 0.42.3--${git_commit}
 
 # Steps
 build: ${build_output} ${build_tool}
 
 ${build_output}: build/Dockerfile
-	cd build && docker build -t kallistobuild . 
+	cd build && docker build -t kallistobuild .
 	docker run -v ${runtime_fullpath}:/data kallistobuild cp kallisto /data
 
 ${build_tool}: ${build_output} runtime/Dockerfile

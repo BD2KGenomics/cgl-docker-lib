@@ -1,13 +1,16 @@
-FROM ubuntu:12.04
+FROM ubuntu:14.04
 
-MAINTAINER Aashish Jain, 17AashishJ@students.harker.org
+MAINTAINER John Vivian, jtvivian@gmail.com
+
+ENV PATH $HOME/bin:$PATH
 
 RUN apt-get update -y && apt-get install -y \
-	cmake \
 	zlib1g-dev \
-	libhdf5-dev \
+	libhdf5-serial-dev \
 	git \
-	build-essential
+	build-essential \
+	cmake \
+	g++
 
 #Create new source directory
 WORKDIR /home
@@ -27,7 +30,4 @@ RUN make install
 
 #Moving binary
 RUN mv /usr/local/bin/kallisto /home
-
 WORKDIR /home
-RUN rm -rf kallisto-src
-
