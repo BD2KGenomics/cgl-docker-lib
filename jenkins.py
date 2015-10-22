@@ -2,8 +2,8 @@
 # John Vivian
 # 10-14-15
 """
-Builds tools whose most recent commit does not exist on our quay.io account,
-runs unittests and pushes image to quay.io.
+Builds tools whose most recent commit does not exist on our quay.io account.
+Runs unittests and pushes image to quay.io.
 
 Dependencies
     Docker (>1.0)
@@ -66,7 +66,7 @@ def run_make(tools_to_build, cmd, err):
 def make_repos_public(tools_to_build, credentials):
     """
     For each tool, submit a POST request to make the tool repository public
-    using credentials loated in ~/.cgl-docker-lib.
+    using credentials loaded in ~/.cgl-docker-lib.
     """
     with open(credentials, 'r') as f:
         token = f.read().strip()
@@ -74,8 +74,8 @@ def make_repos_public(tools_to_build, credentials):
         print 'Making tool: {} a publically visible repository.'.format(tool)
         url = 'https://quay.io/api/v1/repository/ucsc_cgl/{}/changevisibility'.format(tool)
         payload = {'visibility': 'public'}
-        headers = {'Authorization': 'Bearer {}'.format(token)}
-        response = requests.post(url, json=payload, headers=headers)
+        headers = {'Authorization': 'Bearer {}'.format(token), 'content-type': 'application/json'}
+        response = requests.post(url, data=json.dumps(payload), headers=headers)
         assert response.status_code == 200, 'POST call failed. Code: {}. 403 = bad token'.format(response.status_code)
 
 
