@@ -1,9 +1,6 @@
 Containerization Standards for Tools in Docker
 ====================
 
-[![Join the chat at https://gitter.im/BD2KGenomics/cgl-docker-lib](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/BD2KGenomics/cgl-docker-lib?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-
 Basic Philosophy
 ---------------------
 
@@ -12,7 +9,7 @@ a modular, portable tool that is software agnostic and can run on almost any har
 The tool should be setup such that the call to the tool only requires the appended arguments 
 prepended by the standard Docker boilerplate:
 
-    Docker run quay.io/ucsc_cgl/<Tool> [Parameters]
+    docker run quay.io/ucsc_cgl/<Tool> [Parameters]
 
 1. The Docker image should contain only the tool and the minimum dependencies needed to run that tool.
 2. The tool should be launched when the person runs the image without needing to know where the tool is located or how it is called. If no parameters are passed, the user should be presented with the tool's help menu.
