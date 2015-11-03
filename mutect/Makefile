@@ -1,6 +1,6 @@
 # Definitions
 build_output = build/mutect-1.1.7.jar
-runtime_fullpath = $(realpath build)
+runtime_fullpath = $(realpath runtime)
 build_tool = runtime-container.DONE
 git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../mutect | cut -f1 -d " ")
 name = quay.io/ucsc_cgl/mutect
@@ -14,7 +14,7 @@ ${build_output}: build/Dockerfile
 	docker run -v ${runtime_fullpath}:/data mutectbuild cp mutect-1.1.7.jar /data
 
 ${build_tool}: ${build_output} build/Dockerfile
-	cd build && docker build -t ${name}:${tag} .
+	cd runtime && docker build -t ${name}:${tag} .
 	docker tag -f ${name}:${tag} ${name}:latest
 	docker rmi -f mutectbuild
 	touch ${build_tool}

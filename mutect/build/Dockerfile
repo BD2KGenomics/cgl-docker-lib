@@ -1,4 +1,4 @@
-FROM java:8-jdk
+FROM java:7-jdk
 
 MAINTAINER John Vivian, jtvivian@gmail.com
 
