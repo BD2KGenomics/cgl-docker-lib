@@ -1,5 +1,5 @@
 build_tool = runtime-container.DONE
-git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../samtools | cut -f1 -d " ")
+git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../snpeff | cut -f1 -d " ")
 name = quay.io/ucsc_cgl/snpeff
 tag = 4.1l--${git_commit}
 
