@@ -9,8 +9,8 @@ RUN apt-get update && apt-get install -y \
 	libnss3 \
 	curl
 
-ADD download.sh
-RUN download.sh
+COPY download.sh /home/
+RUN sh /home/download.sh
 
 ENV PATH /opt/apache-spark/bin:$PATH
 
