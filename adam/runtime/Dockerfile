@@ -13,4 +13,4 @@ COPY adam /opt/cgl-docker-lib/adam
 COPY apache-spark /opt/cgl-docker-lib/apache-spark
 ENV SPARK_HOME /opt/cgl-docker-lib/apache-spark
 
-ENTRYPOINT "/opt/cgl-docker-lib/adam/bin/adam-submit"
+ENTRYPOINT ["/opt/cgl-docker-lib/adam/bin/adam-submit"]
