@@ -17,4 +17,4 @@ ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64/
 COPY start-tachyon-worker.sh .
 
 # set entrypoint
-CMD ["bash", "-x", "./start-tachyon-worker.sh"]
+ENTRYPOINT ["bash", "-x", "./start-tachyon-worker.sh"]
