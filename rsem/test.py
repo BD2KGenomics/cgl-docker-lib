@@ -24,10 +24,12 @@ def docker_call(tool, tool_parameters, work_dir):
     # base_docker_call = 'sudo docker run -v {}:/data'.format(work_dir)
     base_docker_call = 'docker run -v {}:/data'.format(work_dir)
     call = base_docker_call.split() + [tool] + tool_parameters
+    ret_code = 0
     try:
         ret_code = subprocess.check_call(call)
-    except subprocess.CalledProcessError:
-        raise RuntimeError('docker command returned a non-zero exit status for cmd {}'.format(call))
+    except subprocess.CalledProcessError as e:
+        if e.returncode == 1:
+            pass
     except OSError:
         raise RuntimeError('docker not found on system. Install on all nodes.')
     return ret_code

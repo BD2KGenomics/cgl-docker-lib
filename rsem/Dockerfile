@@ -6,7 +6,8 @@ RUN apt-get update && apt-get install -y \
         build-essential \
         zlib1g-dev \
         libncurses-dev \
-        curl
+        curl \
+        perl-doc
 
 RUN mkdir /opt/rsem
 COPY wrapper.sh /opt/rsem/
@@ -23,3 +24,4 @@ WORKDIR /data
 ENV PATH /opt/rsem/RSEM-1.2.25:$PATH
 
 ENTRYPOINT ["sh", "/opt/rsem/wrapper.sh"]
+CMD ["--help"]
