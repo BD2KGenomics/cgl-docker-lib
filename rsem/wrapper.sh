@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
+# Fix ownership of output files
 finish() {
     # Fix ownership of output files
     UID=$(stat -c '%u:%g' /data)
@@ -8,4 +9,5 @@ finish() {
 }
 trap finish EXIT
 
+# Call tool with parameters
 rsem-calculate-expression "$@"

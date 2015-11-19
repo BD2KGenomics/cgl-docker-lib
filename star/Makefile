@@ -19,4 +19,4 @@ test: build
 	python test.py
 
 clean:
-	-rm ${build_output}
+	-rm ${build_tool}
