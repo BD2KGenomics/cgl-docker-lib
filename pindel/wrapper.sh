@@ -9,4 +9,4 @@ finish() {
 trap finish EXIT
 
 # Call tool with parameters
-bwa "$@"
+pindel "$@"

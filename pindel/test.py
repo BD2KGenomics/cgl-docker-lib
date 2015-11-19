@@ -5,10 +5,10 @@ import tempfile
 import unittest
 
 
-class TestSamtools(unittest.TestCase):
+class TestPindel(unittest.TestCase):
 
     def test_docker_call(self):
-        self.assertEqual(0, docker_call(tool='quay.io/ucsc_cgl/samtools',
+        self.assertEqual(0, docker_call(tool='quay.io/ucsc_cgl/pindel',
                                         tool_parameters=[], work_dir=tempfile.gettempdir()))
 
 
@@ -24,14 +24,10 @@ def docker_call(tool, tool_parameters, work_dir):
     # base_docker_call = 'sudo docker run -v {}:/data'.format(work_dir)
     base_docker_call = 'docker run -v {}:/data'.format(work_dir)
     call = base_docker_call.split() + [tool] + tool_parameters
-    ret_code = 0
     try:
         ret_code = subprocess.check_call(call)
-    except subprocess.CalledProcessError as e:
-        if e.returncode == 1:
-            pass
-        else:
-            raise RuntimeError('docker command returned a non-zero exit status for cmd {}'.format(call))
+    except subprocess.CalledProcessError:
+        raise RuntimeError('docker command returned a non-zero exit status for cmd {}'.format(call))
     except OSError:
         raise RuntimeError('docker not found on system. Install on all nodes.')
     return ret_code
