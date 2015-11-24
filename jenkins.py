@@ -13,10 +13,18 @@ Requires
     ~/.dockercfg (with privileges to quay.io/ucsc_cgl/)
     ~/.cgl-docker-lib (containing the quay.io access token need to authenticate POST requests)
 """
+import argparse
 import os
 import subprocess
 import requests
 import json
+
+
+def build_parser():
+    parser = argparse.ArgumentParser(description=main.__doc__, add_help=True)
+    parser.add_argument('--build_only', default=None, action='store_true',
+                        help='Flag for periodic builds. Builds images but does not push images.')
+    return parser
 
 
 def get_updated_tools(repos):
@@ -80,6 +88,9 @@ def make_repos_public(tools_to_build, credentials):
 
 
 def main():
+    # Define Parser object
+    parser = build_parser()
+    args = parser.parse_args()
     # Determine what tools to build
     tools = {x for x in os.listdir('.') if os.path.isdir(x) and not x.startswith('.')}
     repos = get_repos()
@@ -87,8 +98,11 @@ def main():
     tools_to_build = (tools - repos).union(updated_tools)
     print 'Building Tools: ' + ' '.join(tools_to_build)
     # Build, test, and push tools to quay.io/ucsc_cgl/
-    cmds = [["make"], ["make", "test"], ["make", "push"]]
-    errs = ['Tool: {}, failed to build', 'Tool: {}, failed unittest', 'Tool: {}, failed push to quay.io']
+    cmds = [["make"], ["make", "test"]]
+    errs = ['Tool: {}, failed to build', 'Tool: {}, failed unittest']
+    if not args.build_all:
+        cmds.append(["make", "push"])
+        errs.append('Tool: {}, failed push to quay.io')
     for cmd, err in zip(*[cmds, errs]):
         run_make(tools_to_build, cmd, err)
     credentials = os.path.join(os.path.expanduser('~'), '.cgl-docker-lib')
