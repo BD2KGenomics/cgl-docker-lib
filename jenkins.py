@@ -100,7 +100,7 @@ def main():
     # Build, test, and push tools to quay.io/ucsc_cgl/
     cmds = [["make"], ["make", "test"]]
     errs = ['Tool: {}, failed to build', 'Tool: {}, failed unittest']
-    if not args.build_all:
+    if not args.build_only:
         cmds.append(["make", "push"])
         errs.append('Tool: {}, failed push to quay.io')
     for cmd, err in zip(*[cmds, errs]):
