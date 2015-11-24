@@ -16,7 +16,6 @@ push: build
 	docker push ${name}:latest
 
 test: build
-	python test.py
 
 clean:
 	-rm ${build_tool}

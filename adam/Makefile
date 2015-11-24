@@ -9,7 +9,7 @@ git_commit ?= $(shell git rev-parse HEAD)
 nametag = computationalgenomicslab/adam:latest
 
 # Steps
-all: ${build_output} ${build_tool}
+build: ${build_output} ${build_tool}
 
 ${build_output}: ${build_path}/Dockerfile
 	cd ${build_path} && docker build -t ${nametag}-build . 
@@ -21,9 +21,11 @@ ${build_tool}: ${build_output} ${runtime_path}/Dockerfile
 	cd ${runtime_path} && docker build -t ${nametag} .
 	touch ${build_tool}
 
+test: build
+
 clean:
 	docker rmi -f ${nametag}-build
 
-push: all
+push: build
 	# Requires ~/.dockercfg 
 	docker push ${nametag}
