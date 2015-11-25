@@ -1,5 +1,5 @@
 # Definitions
-build_output = build/mutect-1.1.7.jar
+build_output = runtime/mutect-1.1.7.jar
 runtime_fullpath = $(realpath runtime)
 build_tool = runtime-container.DONE
 git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../mutect | cut -f1 -d " ")

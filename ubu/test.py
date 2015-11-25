@@ -5,7 +5,7 @@ import tempfile
 import unittest
 
 
-class TestBWA(unittest.TestCase):
+class TestUBU(unittest.TestCase):
 
     def test_docker_call(self):
         out, err = check_docker_output(tool='quay.io/ucsc_cgl/ubu')
