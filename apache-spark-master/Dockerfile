@@ -11,7 +11,7 @@ RUN apt-get update && \
 
 # pull down spark jar
 RUN mkdir /opt/apache-spark && \
-  curl http://apache.osuosl.org/spark/spark-1.5.0/spark-1.5.0-bin-hadoop2.6.tgz \
+  curl http://apache.osuosl.org/spark/spark-1.5.2/spark-1.5.2-bin-hadoop2.6.tgz \
   | tar --strip-components=1 -xzC /opt/apache-spark
 
 # add spark to path

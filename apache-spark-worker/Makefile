@@ -1,5 +1,5 @@
 build_tool = runtime-container.DONE
-nametag = computationalgenomicslab/apache-spark-worker:1.5.0
+nametag = computationalgenomicslab/apache-spark-worker:1.5.2
 
 build: ${build_tool}
 
