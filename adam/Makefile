@@ -17,14 +17,15 @@ ${build_output}: ${build_path}/Dockerfile
 	docker run -v ${runtime_fullpath}:/data ${nametag}-build cp -r /home/adam /data/adam
 	docker run -v ${runtime_fullpath}:/data ${nametag}-build cp -r /opt/apache-spark /data/apache-spark
 
-${build_tool}: ${build_output} ${runtime_path}/Dockerfile
+${build_tool}: ${build_output} ${runtime_path}/Dockerfile 
 	cd ${runtime_path} && docker build -t ${nametag} .
 	touch ${build_tool}
 
 test: build
 
 clean:
-	docker rmi -f ${nametag}-build
+	rm -f runtime/adam runtime/apache-spark ${build_tool}
+	docker rmi -f ${nametag}-build ${nametag}
 
 push: build
 	# Requires ~/.dockercfg 
