@@ -19,6 +19,8 @@ An example command is:
 docker run -p 7077:7077 \
        -p 8080:8080 \
        -p 4040:4040 \
+       -e SPARK_MASTER_IP=<spark master IP>:7077 \
+       -d \
        --net=host \
        computationalgenomicslab/apache-spark-master:1.5.2
 ```

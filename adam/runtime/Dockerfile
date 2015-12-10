@@ -7,7 +7,7 @@ RUN mkdir /opt/cgl-docker-lib
 COPY adam /opt/cgl-docker-lib/adam
 
 # copy spark
-COPY apache-spark /opt/cgl-docker-lib/apache-spark
+COPY apache-spark/apache-spark /opt/cgl-docker-lib/apache-spark
 ENV SPARK_HOME /opt/cgl-docker-lib/apache-spark
 
 ENTRYPOINT ["/opt/cgl-docker-lib/adam/bin/adam-submit"]
