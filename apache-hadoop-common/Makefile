@@ -19,7 +19,7 @@ ${runtime_path}/apache-hadoop: ${build_output}
 	docker run -v ${runtime_fullpath}:/data ${nametag}-build cp -rf /opt/apache-hadoop /data/
 	
 	# tomcat files must be writable
-	chmod ugoa+rw -R ${runtime_fullpath}/apache-hadoop/share/hadoop/*/tomcat/
+	chmod -R ugoa+rw ${runtime_fullpath}/apache-hadoop/share/hadoop/*/tomcat/
 
 ${runtime_path}/hadoop-docker: ${build_output}
 	echo "Moving hadoop-docker from container to ${runtime_fullpath}"
