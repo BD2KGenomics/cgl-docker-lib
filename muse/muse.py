@@ -196,5 +196,4 @@ genome used in 'MuSE call'""")
     args = parser.parse_args()
     args.muse = 'MuSEv1.0rc'
     run_muse(args)
-
-
+    
