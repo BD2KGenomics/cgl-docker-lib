@@ -61,6 +61,7 @@ def get_repos():
     return repos
 
 
+# TODO: This is garbage. Fix this try/catch
 def run_make(tools_to_build, cmd, err):
     """
     For each tool, run a (make) command with an error message if it fails
@@ -70,6 +71,8 @@ def run_make(tools_to_build, cmd, err):
         try:
             subprocess.check_call(cmd, cwd=os.path.abspath(tool))
         except subprocess.CalledProcessError:
+            if cmd == 'make':
+                raise RuntimeError, err.format(tool)
             # If a test fails, an assertion will be thrown. Sometimes "make test" returns non-zero exit codes.
             pass
 
