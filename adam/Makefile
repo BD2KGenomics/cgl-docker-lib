@@ -24,7 +24,7 @@ ${build_tool}: ${build_output} ${runtime_path}/Dockerfile
 test: build
 
 clean:
-	rm -f runtime/adam runtime/apache-spark ${build_tool}
+	rm -rf runtime/adam runtime/apache-spark ${build_tool}
 	docker rmi -f ${nametag}-build ${nametag}
 
 push: build
