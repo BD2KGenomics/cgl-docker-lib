@@ -41,7 +41,7 @@ def get_updated_tools(repos):
         assert response.status_code == 200, 'Quay.io API Request to view repository: {}, has failed'.format(tool)
         # Fetch quay.io tags and parse for commit hash
         tags = sum([x['tags'] for x in json_data['images'] if x['tags']], [])
-        tags = {str(x).split('--')[1] for x in tags if not x == 'latest'}
+        tags = {str(x).split('--')[1] for x in tags if '--' in x}
         # Fetch last commit hash for tool using `git log`
         p = subprocess.Popen(['git', 'log', '--pretty=oneline', '-n', '1', '--', tool], stdout=subprocess.PIPE)
         commit, comment = p.stdout.read().split(" ", 1)
