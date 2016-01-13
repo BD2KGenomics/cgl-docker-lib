@@ -48,7 +48,7 @@ RUN chmod +x $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh
 # add conf files
 ADD hadoop-docker/core-site.xml.template $HADOOP_PREFIX/etc/hadoop/core-site.xml.template
 RUN sed -i s/9000/8020/ $HADOOP_PREFIX/etc/hadoop/core-site.xml.template 
-ADD hadoop-docker/hdfs-site.xml $HADOOP_PREFIX/etc/hadoop/hdfs-site.xml
+ADD hdfs-site.xml $HADOOP_PREFIX/etc/hadoop/hdfs-site.xml
 ADD hadoop-docker/mapred-site.xml $HADOOP_PREFIX/etc/hadoop/mapred-site.xml
 ADD hadoop-docker/yarn-site.xml $HADOOP_PREFIX/etc/hadoop/yarn-site.xml.template
 ADD hadoop-docker/ssh_config /root/.ssh/config
