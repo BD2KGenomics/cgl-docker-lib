@@ -4,6 +4,9 @@ HADOOP_PREFIX=/opt/apache-hadoop
 HADOOP_CONF_DIR=${HADOOP_PREFIX}/etc/hadoop
 ln -s ${HADOOP_PREFIX} /usr/local/hadoop
 
+# make a directory in the mounted volume
+mkdir /ephemeral/hdfs
+
 # overwrite hostname in conf
 if [ $# -ne 0 ]; then
     sed "s/HOSTNAME/${1}/g" $HADOOP_PREFIX/etc/hadoop/core-site.xml.template > $HADOOP_PREFIX/etc/hadoop/core-site.xml
