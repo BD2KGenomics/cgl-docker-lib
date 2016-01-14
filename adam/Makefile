@@ -6,7 +6,7 @@ runtime_fullpath = $(realpath ${runtime_path})
 build_tool = runtime-container.DONE
 build_number ?= none
 git_commit ?= $(shell git rev-parse HEAD)
-nametag = computationalgenomicslab/adam:latest
+nametag = computationalgenomicslab/adam:49b614d
 
 # Steps
 build: ${build_output} ${build_tool}
