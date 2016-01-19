@@ -1,4 +1,4 @@
-FROM computationalgenomicslab/apache-hadoop-common:2.6.2
+FROM quay.io/ucsc_cgl/apache-hadoop-common:2.6.2
 
 ###
 # Much of this is lifted from

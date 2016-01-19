@@ -6,7 +6,7 @@ runtime_fullpath = $(realpath ${runtime_path})
 build_tool = runtime-container.DONE
 build_number ?= none
 git_commit ?= $(shell git rev-parse HEAD)
-nametag = computationalgenomicslab/adam:49b614d
+nametag = quay.io/ucsc_cgl/adam:49b614d
 
 # Steps
 build: ${build_output} ${build_tool}
@@ -22,6 +22,7 @@ ${build_tool}: ${build_output} ${runtime_path}/Dockerfile
 	touch ${build_tool}
 
 test: build
+	python test.py
 
 clean:
 	rm -rf runtime/adam runtime/apache-spark ${build_tool}

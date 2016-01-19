@@ -22,5 +22,5 @@ docker run -p 7077:7077 \
        -e SPARK_MASTER_IP=<spark master IP>:7077 \
        -d \
        --net=host \
-       computationalgenomicslab/apache-spark-master:1.5.2
+       quay.io/ucsc_cgl/apache-spark-master:1.5.2
 ```

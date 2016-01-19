@@ -10,7 +10,7 @@ An example command is:
 docker run \
        --net=host \
        -p 9999:9999 \
-       computationalgenomicslab/conductor:latest \
+       quay.io/ucsc_cgl/conductor:latest \
        --master spark://<spark_master_ip>:7077 \
        --conf spark.driver.port=9999 -- \
        s3://<s3 bucket>/<s3 path> hdfs://<hdfs ip>:<hdfs port>/<hdfs path> 
