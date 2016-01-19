@@ -5,7 +5,7 @@ This container builds the "master" node for Hadoop 2.6.2 HDFS:
 
 * The Namenode: This is the node that controls HDFS.
 
-This container inherits from the computationalgenomicslab/apache-hadoop-common:2.6.2 container.
+This container inherits from the quay.io/ucsc_cgl/apache-hadoop-common:2.6.2 container.
 
 How to run
 ===
@@ -18,7 +18,7 @@ docker run \
   -p 8022:8022 \
   -p 50070:50070 \
   --net=host \
-  computationalgenomicslab/apache-hadoop-master:2.6.2 \
+  quay.io/ucsc_cgl/apache-hadoop-master:2.6.2 \
   <master_ip>
 ```
 

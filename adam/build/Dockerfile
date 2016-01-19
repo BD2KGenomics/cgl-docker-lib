@@ -1,4 +1,4 @@
-FROM computationalgenomicslab/spark-and-maven:1.5.2.3.3.3-build
+FROM quay.io/ucsc_cgl/spark-and-maven:1.5.2.3.3.3-build
 
 MAINTAINER Frank Austin Nothaft, fnothaft@berkeley.edu
 

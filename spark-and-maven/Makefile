@@ -1,7 +1,7 @@
 # Definitions
 build_path = build
 runtime_path = runtime
-nametag = computationalgenomicslab/spark-and-maven:1.5.2.3.3.3
+nametag = quay.io/ucsc_cgl/spark-and-maven:1.5.2.3.3.3
 
 # Steps
 build: ${build_path}/Dockerfile
@@ -9,6 +9,8 @@ build: ${build_path}/Dockerfile
 
 clean:
 	docker rmi -f ${nametag}-build
+
+test: build
 
 push: build
 	# Requires ~/.dockercfg 

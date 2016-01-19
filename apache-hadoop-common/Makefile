@@ -5,7 +5,7 @@ runtime_fullpath = "${PWD}/${runtime_path}"
 build_output = apache-hadoop-common
 build_number ?= none
 git_commit ?= $(shell git rev-parse HEAD)
-nametag = computationalgenomicslab/apache-hadoop-common:2.6.2
+nametag = quay.io/ucsc_cgl/apache-hadoop-common:2.6.2
 build_tool = runtime-container.DONE
 
 build: ${build_output} ${build_tool}
@@ -24,6 +24,8 @@ ${runtime_path}/hadoop-docker: ${build_output}
 
 ${build_output}: ${build_path}/Dockerfile
 	cd ${build_path} && docker build -t ${nametag}-build .
+
+test: build
 
 clean:
 	rm -rf ${runtime_fullpath}/apache-hadoop ${runtime_fullpath}/hadoop-docker ${build_tool}

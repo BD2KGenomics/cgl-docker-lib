@@ -1,5 +1,5 @@
 build_tool = runtime-container.DONE
-nametag = computationalgenomicslab/apache-hadoop-master:2.6.2
+nametag = quay.io/ucsc_cgl/apache-hadoop-master:2.6.2
 
 build: ${build_tool}
 
@@ -15,3 +15,9 @@ ${build_tool}: Dockerfile start-master.sh
 clean:
 	rm -rf ${build_tool}
 	docker rmi -f ${nametag}
+
+test: build
+
+push: build
+	# Requires ~/.dockercfg 
+	docker push ${nametag}

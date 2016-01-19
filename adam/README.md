@@ -17,7 +17,7 @@ An example command is:
 docker run \
        --net=host \
        -p 9999:9999 \
-       computationalgenomicslab/adam:latest \
+       quay.io/ucsc_cgl/adam:latest \
        --master spark://<spark_master_ip>:7077 \
        --conf spark.driver.port=9999 -- \
        flagstat hdfs://<hdfs_master_ip>:8020/mouse_chrM.bam 
