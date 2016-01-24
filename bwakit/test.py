@@ -5,11 +5,11 @@ import tempfile
 import unittest
 
 
-class TestBWAPostalt(unittest.TestCase):
+class TestBWAKIT(unittest.TestCase):
 
     def test_docker_call(self):
-        out, err = check_docker_output(tool='quay.io/ucsc_cgl/bwa-postalt:0.7.12')
-        self.assertTrue('k8 bwa-postalt.js [options] <alt.sam> [aln.sam]' in out)
+        out, err = check_docker_output(tool='quay.io/ucsc_cgl/bwakit:0.7.12')
+        self.assertTrue('Map paired-end reads to GRCh38+ALT+decoy+HLA and perform HLA typing:' in out)
 
 def check_docker_output(tool):
     command = 'docker run ' + tool
