@@ -1,7 +1,7 @@
 # Definitions
 build_path = build
 runtime_path = runtime
-build_output = ${runtime_path}/adam
+build_output = ${runtime_path}/conductor
 runtime_fullpath = $(realpath ${runtime_path})
 build_tool = runtime-container.DONE
 build_number ?= none
