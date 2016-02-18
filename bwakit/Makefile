@@ -6,7 +6,7 @@ tag = 0.7.12--${git_commit}
 build: ${build_tool}
 
 ${build_tool}: Dockerfile
-	docker build -t ${nametag} .
+	docker build -t ${name}:${tag} .
 	touch ${build_tool}
 
 push: build
