@@ -91,11 +91,17 @@ All tools should be on their own branch while under development.  Once a tool is
 Every image should have a wrapper script set as the `ENTRYPOINT` which handles launching the tool (with parameters), and importantly, changing the ownership of all output files to the owner of the mounted **/data** directory.  This wrapper script allows for all kinds of flexibility, as the example below shows the wrapper script handling ownership of output files from root to the host user as well as using environment variables to allow any number of java options to be passed during jar execution. An example of a wrapper script for gatk is shown below:
 ```
 #!/usr/bin/env bash
+
+# Fix ownership of output files
+finish() {
+    # Fix ownership of output files
+    user_id=$(stat -c '%u:%g' /data)
+    chown -R ${user_id} /data
+}
+trap finish EXIT
+
 # Call tool with parameters
 java $JAVA_OPTS -jar /opt/cgl-docker-lib/gatk.jar "$@"
-# Fix ownership of output files
-UID=$(stat -c '%u:%g' /data)
-chown -R $UID /data
 ```
 
 ## Standards Within the Genomics Community
