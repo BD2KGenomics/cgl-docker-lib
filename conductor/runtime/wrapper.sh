@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/usr/bin/env bash
 
 SPARK_SUBMIT=/opt/cgl-docker-lib/apache-spark/bin/spark-submit
 CONDUCTOR_JAR=/opt/cgl-docker-lib/conductor/conductor/target/conductor-0.5-SNAPSHOT-distribution.jar
