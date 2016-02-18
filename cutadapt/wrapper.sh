@@ -4,8 +4,8 @@ set -e
 # Fix ownership of output files
 finish() {
     # Fix ownership of output files
-    UID=$(stat -c '%u:%g' /data)
-    chown -R $UID /data
+    user_id=$(stat -c '%u:%g' /data)
+    chown -R ${user_id} /data
 }
 trap finish EXIT
 
