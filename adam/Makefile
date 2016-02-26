@@ -6,7 +6,7 @@ runtime_fullpath = $(realpath ${runtime_path})
 build_tool = runtime-container.DONE
 build_number ?= none
 git_commit ?= $(shell git rev-parse HEAD)
-nametag = quay.io/ucsc_cgl/adam:cd6ef41
+nametag = quay.io/ucsc_cgl/adam:962-ehf
 
 # Steps
 build: ${build_output} ${build_tool}
