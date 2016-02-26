@@ -5,9 +5,10 @@ MAINTAINER Frank Austin Nothaft, fnothaft@berkeley.edu
 WORKDIR /home
 
 # clone adam
-RUN git clone https://github.com/bigdatagenomics/adam.git
+RUN git clone https://github.com/fnothaft/adam.git
 
 # build adam
 WORKDIR /home/adam
-RUN git checkout cd6ef4162ae97460059ef067d21bbed7e060b289
+RUN git checkout 962-ehf
+
 RUN /opt/apache-maven-3.3.3/bin/mvn package -DskipTests
