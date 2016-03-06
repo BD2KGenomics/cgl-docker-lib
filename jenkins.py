@@ -111,8 +111,10 @@ def main():
         errs.append('Tool: {}, failed push to quay.io')
     for cmd, err in zip(*[cmds, errs]):
         run_make(tools_to_build, cmd, err)
-    credentials = os.path.join(os.path.expanduser('~'), '.cgl-docker-lib')
-    make_repos_public(tools_to_build, credentials=credentials)
+    # TBD: Making repos public requires admin privileges which I'd rather not grant Jenkins
+    if False:
+        credentials = os.path.join(os.path.expanduser('~'), '.cgl-docker-lib')
+        make_repos_public(tools_to_build, credentials=credentials)
 
 
 if __name__ == '__main__':
