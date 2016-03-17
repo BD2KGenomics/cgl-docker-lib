@@ -4,7 +4,7 @@ runtime_fullpath = $(realpath runtime)
 build_tool = runtime-container.DONE
 git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../gatk | cut -f1 -d " ")
 name = quay.io/ucsc_cgl/gatk
-tag = 3.4--${git_commit}
+tag = 3.5--${git_commit}
 
 # Steps
 build: ${build_output} ${build_tool}
