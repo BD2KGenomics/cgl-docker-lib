@@ -11,4 +11,3 @@ trap finish EXIT
 
 # Call tool with parameters
 /opt/FastQC/fastqc "$@"
-
