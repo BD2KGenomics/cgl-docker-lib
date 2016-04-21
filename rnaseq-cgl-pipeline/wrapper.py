@@ -12,7 +12,7 @@ log = logging.getLogger()
 
 def call_pipeline(mount, args):
     uuid = 'Toil-RNAseq-' + str(uuid4())
-    if not os.path.exists(mount + uuid):
+    if not os.path.isdir(mount + uuid):
         os.makedirs(os.path.join(mount, uuid))
     os.environ['PYTHONPATH'] = '/opt/rnaseq-pipeline/src'
     command = ['python', '-m', 'toil_scripts.rnaseq_cgl.rnaseq_cgl_pipeline',
