@@ -27,7 +27,7 @@ class TestRNASeqPipeline(unittest.TestCase):
         self.assertTrue('No required mirror mount' in check_docker_output(base + sock + sample + inputs + tool + args))
         # Check for more than one mirror mount
         self.assertTrue('Too many mirror mount' in check_docker_output(
-            base + sock + mirror +  ['-v', '/bar:/bar'] + tool + args))
+            base + sock + mirror + ['-v', '/bar:/bar'] + tool + args))
 
 
 def check_docker_output(command):
