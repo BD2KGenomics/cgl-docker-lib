@@ -48,7 +48,7 @@ def main():
     # Define argument parser for
     parser = argparse.ArgumentParser(description=main.__doc__, formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('--star', type=str, required=True,
-                        help='Absolute path to Star Index tarball.')
+                        help='Absolute path to STAR index tarball.')
     parser.add_argument('--rsem', type=str, required=True,
                         help='Absolute path to rsem reference tarball.')
     parser.add_argument('--kallisto', type=str, required=True,
