@@ -20,11 +20,11 @@ def call_pipeline(mount, args):
                '--retryCount', '1',
                '--output-dir', mount,
                '--workDir', os.path.join(mount, uuid),
-               '--star-index', 'file://'+ args.star,
+               '--star-index', 'file://' + args.star,
                '--rsem-ref', 'file://' + args.rsem,
                '--kallisto-index', 'file://' + args.kallisto,
                '--sample-urls']
-    command.extend(['file://' + x for x in args.samples])
+    command.extend('file://' + x for x in args.samples)
     if args.restart:
         command.append('--restart')
     try:
