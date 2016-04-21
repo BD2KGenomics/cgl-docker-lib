@@ -20,8 +20,8 @@ RUN chmod u+x /usr/local/bin/docker
 RUN pip install toil
 
 # Install refactored rnaseq pipeline
-RUN git clone -b issues/221-refactor-rnaseq-pipeline https://github.com/BD2KGenomics/toil-scripts \
-    /opt/rnaseq-pipeline
+RUN git clone https://github.com/BD2KGenomics/toil-scripts /opt/rnaseq-pipeline
+RUN cd /opt/rnaseq-pipeline && git reset --hard 77510fb075f5865050621968e2dc6b2ac8cf7c87
 
 COPY wrapper.py /opt/rnaseq-pipeline/
 COPY README.md /opt/rnaseq-pipeline/
