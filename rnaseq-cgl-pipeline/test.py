@@ -18,15 +18,15 @@ class TestRNASeqPipeline(unittest.TestCase):
         out = check_docker_output(command=base + tool)
         self.assertTrue('Please see the complete documentation' in out)
         self.assertFalse('foo bar' in out)
-        # Check for not enough mirror mounts
-        self.assertTrue('IllegalArgumentException' in check_docker_output(base + sock + tool + args))
+        # Check for required mirror mounts
+        self.assertTrue('No required mirror mount' in check_docker_output(base + sock + tool + args))
         # Check for too many binds to docker socket
         self.assertTrue('Duplicate bind mount' in check_docker_output(
             base + sock + ['-v', '/foo:/var/run/docker.sock'] + mirror + tool + args))
         # Check for mirror mount when input/sample mount is used
-        self.assertTrue('IllegalArgumentException' in check_docker_output(base + sock + sample + inputs + tool + args))
+        self.assertTrue('No required mirror mount' in check_docker_output(base + sock + sample + inputs + tool + args))
         # Check for more than one mirror mount
-        self.assertTrue('IllegalArgumentException' in check_docker_output(
+        self.assertTrue('Too many mirror mount' in check_docker_output(
             base + sock + mirror +  ['-v', '/bar:/bar'] + tool + args))
 
 
@@ -35,9 +35,6 @@ def check_docker_output(command):
     output = process.communicate()
     return output[0]
 
-
-class IllegalArgumentException(Exception):
-    pass
 
 if __name__ == '__main__':
     unittest.main()
