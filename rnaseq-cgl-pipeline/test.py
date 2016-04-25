@@ -15,7 +15,7 @@ class TestRNASeqPipeline(unittest.TestCase):
         sample = ['-v', '/bar:/samples']
         inputs = ['-v', '/foobar:/inputs']
         # Check base call for help menu
-        out = check_docker_output(command=base + tool)
+        out = check_docker_output(command=base + tool, assert_1=False)
         self.assertTrue('Please see the complete documentation' in out)
         self.assertFalse('foo bar' in out)
         # Check for required mirror mounts
@@ -30,9 +30,13 @@ class TestRNASeqPipeline(unittest.TestCase):
             base + sock + mirror + ['-v', '/bar:/bar'] + tool + args))
 
 
-def check_docker_output(command):
+def check_docker_output(command, assert_1=True):
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     output = process.communicate()
+    if assert_1:
+        assert process.returncode == 1
+    else:
+        assert process.returncode == 0
     return output[0]
 
 
