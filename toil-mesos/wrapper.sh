@@ -10,4 +10,4 @@ finish() {
 trap finish EXIT
 
 # Call tool with parameters
-java $JAVA_OPTS -jar /opt/snpeff/snpEff.jar "$@"
+
