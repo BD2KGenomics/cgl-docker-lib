@@ -31,11 +31,11 @@ be downloaded after creating an account which takes about 1 minute.
     * `syn = synapseclient.Synapse()`
     * `syn.login('foo@bar.com', 'password')`
     * Get the RSEM reference (1 G)
-        * `syn.get('syn5889216')`
+        * `syn.get('syn5889216', downloadLocation='.')`
     * Get the Kallisto index (2 G)
-        * `syn.get('syn5886142')`
+        * `syn.get('syn5886142', downloadLocation='.')`
     * Get the STAR index (25 G)
-        * `syn.get('syn5886182')`
+        * `syn.get('syn5886182', downloadLocation='.')`
 
 ## Genomic tool containers
 
