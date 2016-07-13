@@ -1,0 +1,55 @@
+# Computational Genomics Lab, Genomics Institute, UC Santa Cruz
+### Running the ADAM preprocessing pipeline container
+
+This guide will walk through running the ADAM preprocessing pipeline. If you
+find any errors or corrections please feel free to make a pull request against
+the [cgl-docker-lib](https://github.com/BD2KGenomics/cgl-docker-lib) repository,
+where this Docker image is maintained. Feedback of any kind is appreciated.
+
+## Overview
+
+This container runs the [ADAM preprocessing
+pipeline](https://github.com/BD2KGenomics/toil-scripts/tree/master/src/toil_scripts/adam_pipeline),
+which is built using [Toil](https://github.com/BD2KGenomics/toil), a
+high-performance workflow execution system. [ADAM](https://github.com/bigdatagenomics/adam)
+is a parallel system for processing genomic data that is built on top of [Apache
+Spark](https://spark.apache.org). Although ADAM and Apache Spark are designed
+to be run as a distributed system, this container is designed to run on a
+single node. If you would like to run ADAM on a Spark cluster, look at the [ADAM
+preprocessing workflow in
+toil-scripts](https://github.com/BD2KGenomics/toil-scripts/tree/master/src/toil_scripts/adam_pipeline).
+
+This pipeline expects one input, which is aligned reads in SAM/BAM/ADAM format.
+Additionally, we expect a path to a known sites file. This is a file that
+describes positions where variants are known to occur, and is used to mask
+out sites during base quality score recalibration. Typically, a dbSNP VCF file
+is used. This pipeline requires a run environment with at least 10G of memory
+to run BQSR with a known sites file from dbSNP.
+
+This pipeline requires a host with Docker 1.9.0 installed. Other versions of
+Docker will soon be supported.
+
+## Running
+
+Mirror the absolute path to the parent directory when using Docker's -v mount
+command. Toil's job store and temporary directories will be created inside this
+mount point. "-v /var/run/docker.sock:/var/run/docker.sock" must always be
+supplied. This is necessary for the ADAM pipeline Docker container to run
+the Docker containers it relies on.
+
+To reiterate, the mount for the working directory must match on both sides of the colon.
+An error will be thrown if that is not the case. 
+
+```
+docker run \
+    -v /foo/bar:/foo/bar \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    quay.io/ucsc_cgl/adam-pipeline \
+    --sample /foo/bar/<input_sample>.{sam,bam} \
+    --known-sites /foo/bar/<known_sites>.vcf
+    --memory <memory_setting>
+```
+
+The memory setting for this pipeline is used to set the amount of memory used
+by ADAM, and should be the amount of memory in gigabytes that you would like
+to allocate.
