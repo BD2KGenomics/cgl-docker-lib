@@ -41,9 +41,10 @@ def write_config(mount, args):
 def call_pipeline(mount, args):
     
     # get uuid and make a work directory
-    uuid = 'Toil-Adam-' + str(uuid4())
-    if not os.path.isdir(mount + uuid):
-        os.makedirs(os.path.join(mount, uuid))
+    uuid = 'toil-adam-' + str(uuid4())
+    work_dir = os.path.join(mount, uuid)
+    if not os.path.isdir(work_dir):
+        os.makedirs(work_dir)
 
     # write config file locally
     conf = write_config(mount, args)
@@ -55,7 +56,7 @@ def call_pipeline(mount, args):
                os.path.join(mount, 'jobStore'),
                '--retryCount', '1',
                '--output-dir', mount,
-               '--workDir', os.path.join(mount, uuid),
+               '--workDir', work_dir,
                '--config', conf,
                '--sample', args.sample]
     
@@ -65,7 +66,7 @@ def call_pipeline(mount, args):
     finally:
         stat = os.stat(mount)
         subprocess.check_call(['chown', '-R', '{}:{}'.format(stat.st_uid, stat.st_gid), mount])
-        shutil.rmtree(os.path.join(mount, uuid))
+        shutil.rmtree(work_dir)
 
 
 def main():

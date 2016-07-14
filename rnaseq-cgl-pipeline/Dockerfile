@@ -17,7 +17,7 @@ RUN wget https://get.docker.com/builds/Linux/x86_64/docker-1.9.1 -O /usr/local/b
 RUN chmod u+x /usr/local/bin/docker
 
 # Install Toil
-RUN pip install toil
+RUN pip install toil==3.3.0
 
 # Install refactored rnaseq pipeline
 RUN git clone https://github.com/BD2KGenomics/toil-scripts /opt/rnaseq-pipeline

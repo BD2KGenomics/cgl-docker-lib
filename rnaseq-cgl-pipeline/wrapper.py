@@ -11,15 +11,16 @@ log = logging.getLogger()
 
 
 def call_pipeline(mount, args):
-    uuid = 'Toil-RNAseq-' + str(uuid4())
-    if not os.path.isdir(mount + uuid):
-        os.makedirs(os.path.join(mount, uuid))
+    uuid = 'toil-rnaseq-' + str(uuid4())
+    work_dir = os.path.join(mount, uuid)
+    if not os.path.isdir(work_dir):
+        os.makedirs(work_dir)
     os.environ['PYTHONPATH'] = '/opt/rnaseq-pipeline/src'
     command = ['python', '-m', 'toil_scripts.rnaseq_cgl.rnaseq_cgl_pipeline',
                os.path.join(mount, 'jobStore'),
                '--retryCount', '1',
                '--output-dir', mount,
-               '--workDir', os.path.join(mount, uuid),
+               '--workDir', work_dir,
                '--star-index', 'file://' + args.star,
                '--rsem-ref', 'file://' + args.rsem,
                '--kallisto-index', 'file://' + args.kallisto,
@@ -32,7 +33,7 @@ def call_pipeline(mount, args):
     finally:
         stat = os.stat(mount)
         subprocess.check_call(['chown', '-R', '{}:{}'.format(stat.st_uid, stat.st_gid), mount])
-        shutil.rmtree(os.path.join(mount, uuid))
+        shutil.rmtree(work_dir)
 
 
 def main():
