@@ -7,7 +7,7 @@ build_tool = runtime-container.DONE
 build_number ?= none
 git_commit ?= $(shell git rev-parse HEAD)
 name = quay.io/ucsc_cgl/adam
-tag = 962-ehf--${git_commit}
+tag = c251f79c6bde3dce12e685c6cf03d5b1c30e9273--${git_commit}
 
 # Steps
 build: ${build_output} ${build_tool}
