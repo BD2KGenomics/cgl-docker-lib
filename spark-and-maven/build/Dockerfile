@@ -4,7 +4,7 @@ MAINTAINER Frank Austin Nothaft, fnothaft@berkeley.edu
 
 RUN apt-get update && apt-get install -y \
 	git \
-	openjdk-7-jdk \
+	openjdk-8-jdk \
 	python \
 	libnss3 \
 	curl

@@ -12,12 +12,12 @@ RUN apt-get update && \
   apt-get install -y \
     python \
     libnss3 \
-    openjdk-7-jre-headless \
+    openjdk-8-jre-headless \
     openssh-server \
     openssh-client
 
 # set java path
-ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64/jre/
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/jre/
 ENV PATH $PATH:$JAVA_HOME/bin
 
 # passwordless ssh

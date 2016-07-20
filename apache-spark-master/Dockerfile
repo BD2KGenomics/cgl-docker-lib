@@ -6,7 +6,7 @@ RUN apt-get update && \
   apt-get install -y \
     python \
     libnss3 \
-    openjdk-7-jre-headless \
+    openjdk-8-jre-headless \
     curl
 
 # pull down spark jar
