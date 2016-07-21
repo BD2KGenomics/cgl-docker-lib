@@ -3,7 +3,7 @@ runtime_fullpath = $(realpath runtime)
 build_tool = runtime-container.DONE
 git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../rnaseq-cgl-pipeline | cut -f1 -d " ")
 name = quay.io/ucsc_cgl/adam-pipeline
-tag = 732349f6dd0df3fb90fa9d7e6ee1e04a32e2e773--${git_commit}
+tag = f7512d5ac3bcaa40fa2682236c2f1b44020a2861--${git_commit}
 
 build:
 	docker build -t ${name}:${tag} .
