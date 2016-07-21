@@ -24,29 +24,18 @@ Additionally, we expect a path to a known sites file. This is a file that
 describes positions where variants are known to occur, and is used to mask
 out sites during base quality score recalibration. Typically, a dbSNP VCF file
 is used. This pipeline requires a run environment with at least 10G of memory
-to run BQSR with a known sites file from dbSNP.
-
-This pipeline requires a host with Docker 1.9.0 installed. Other versions of
-Docker will soon be supported.
+to run BQSR with a known sites file from dbSNP. You should provide a path where
+the output data should be written.
 
 ## Running
-
-Mirror the absolute path to the parent directory when using Docker's -v mount
-command. Toil's job store and temporary directories will be created inside this
-mount point. "-v /var/run/docker.sock:/var/run/docker.sock" must always be
-supplied. This is necessary for the ADAM pipeline Docker container to run
-the Docker containers it relies on.
-
-To reiterate, the mount for the working directory must match on both sides of the colon.
-An error will be thrown if that is not the case. 
 
 ```
 docker run \
     -v /foo/bar:/foo/bar \
-    -v /var/run/docker.sock:/var/run/docker.sock \
     quay.io/ucsc_cgl/adam-pipeline \
     --sample /foo/bar/<input_sample>.{sam,bam} \
-    --known-sites /foo/bar/<known_sites>.vcf
+    --known-sites /foo/bar/<known_sites>.vcf \
+    --output /foo/bar/<path_to_write_output> \
     --memory <memory_setting>
 ```
 

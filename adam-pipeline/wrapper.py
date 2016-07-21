@@ -4,6 +4,7 @@ import logging
 import os
 import shutil
 import subprocess
+import sys
 import textwrap
 from uuid import uuid4
 
@@ -11,7 +12,7 @@ logging.basicConfig(level=logging.INFO)
 log = logging.getLogger()
 
 
-def write_config(mount, args):
+def write_config(args):
     
     # open path to write config file at
     path = "adam-preprocessing-%s.config" % (str(uuid4()))
@@ -25,7 +26,8 @@ def write_config(mount, args):
     memory: %s
     run-local: true
     local-dir: %s
-    ''' % (args.known_sites, args.memory, mount))
+    native-adam-path: /opt/cgl-docker-lib/adam
+    ''' % (args.known_sites, args.memory, args.output))
 
     # write config to file
     print >> fp, config
@@ -38,34 +40,36 @@ def write_config(mount, args):
     return path
 
 
-def call_pipeline(mount, args):
+def call_pipeline(args):
     
     # get uuid and make a work directory
     uuid = 'toil-adam-' + str(uuid4())
-    work_dir = os.path.join(mount, uuid)
+    work_dir = os.path.join('/tmp/', uuid)
     if not os.path.isdir(work_dir):
         os.makedirs(work_dir)
 
     # write config file locally
-    conf = write_config(mount, args)
+    conf = write_config(args)
 
     # set python path and build command
     os.environ['PYTHONPATH'] = '/opt/adam-pipeline/src'
     command = ['python', '-m', 'toil_scripts.adam_pipeline.adam_preprocessing',
                'run',
-               os.path.join(mount, 'jobStore'),
+               os.path.join(work_dir, 'jobStore'),
                '--retryCount', '1',
-               '--output-dir', mount,
+               '--output-dir', os.path.dirname(args.output),
                '--workDir', work_dir,
                '--config', conf,
-               '--sample', args.sample]
+               '--sample', args.sample,
+               '--defaultDisk', '0',
+               '--maxDisk', '0']
     
     # run the command and clean up
     try:
         subprocess.check_call(command)
     finally:
-        stat = os.stat(mount)
-        subprocess.check_call(['chown', '-R', '{}:{}'.format(stat.st_uid, stat.st_gid), mount])
+        stat = os.stat(args.output)
+        subprocess.check_call(['chown', '-R', '{}:{}'.format(stat.st_uid, stat.st_gid), args.output])
         shutil.rmtree(work_dir)
 
 
@@ -85,41 +89,14 @@ def main():
                         help='Absolute path to VCF file with known SNPs.')
     parser.add_argument('--sample', required=True,
                         help='Absolute path to input SAM/BAM file.')
+    parser.add_argument('--output', required=True,
+                        help='Absolute path to write output SAM/BAM file at.')
     parser.add_argument('--memory', required=True,
                         help='Java formatted memory string for allocating memory for Spark.')
     args = parser.parse_args()
 
-    # Get name of most recent running container (should be this one)
-    name = subprocess.check_output(['docker', 'ps', '--format', '{{.Names}}']).split('\n')[0]
-
-    # Get name of mounted volume
-    blob = json.loads(subprocess.check_output(['docker', 'inspect', name]))
-    mounts = blob[0]['Mounts']
-
-    # Ensure docker.sock is mounted correctly
-    sock_mount = [x['Source'] == x['Destination'] for x in mounts if 'docker.sock' in x['Source']]
-    if len(sock_mount) != 1:
-        raise IllegalArgumentException('Missing socket mount. Requires the following:'
-                                       'docker run -v /var/run/docker.sock:/var/run/docker.sock')
-
-    # Ensure formatting of command for 2 mount points
-    if len(mounts) == 2:
-        if not all(x['Source'] == x['Destination'] for x in mounts):
-            raise IllegalArgumentException('Docker Src/Dst mount points, invoked with the -v argument,'
-                                           'must be the same if only using one mount point aside from the '
-                                           'docker socket.')
-        work_mount = [x['Source'] for x in mounts if 'docker.sock' not in x['Source']]
-    else:
-        # Ensure only one mirror mount exists aside from docker.sock
-        mirror_mounts = [x['Source'] for x in mounts if x['Source'] == x['Destination']]
-        work_mount = [x for x in mirror_mounts if 'docker.sock' not in x]
-        if len(work_mount) > 1:
-            raise IllegalArgumentException('Too many mirror mount points provided, see documentation.')
-        if len(work_mount) == 0:
-            raise IllegalArgumentException('No required mirror mount point provided, see documentation.')
-
     # call the pipeline
-    call_pipeline(work_mount[0], args)
+    call_pipeline(args)
 
 
 class IllegalArgumentException(Exception):

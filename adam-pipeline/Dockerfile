@@ -1,21 +1,16 @@
-FROM ubuntu:14.04
+FROM quay.io/ucsc_cgl/adam:962-ehf--be13567d00cd4c586edf8ae47d991815c8c72a49
 
 MAINTAINER Frank Austin Nothaft, fnothaft@berkeley.edu
 
 RUN apt-get update && apt-get install -y \
-	git \
-	openjdk-7-jdk \
 	python-dev \
 	python-pip \
 	libnss3 \
+	git \
 	curl \
 	wget \
 	apt-transport-https \
 	ca-certificates
-
-# Get the 1.9.1 binary
-RUN wget https://get.docker.com/builds/Linux/x86_64/docker-1.9.0 -O /usr/local/bin/docker
-RUN chmod u+x /usr/local/bin/docker
 
 # Install Toil
 RUN pip install toil==3.3.0
