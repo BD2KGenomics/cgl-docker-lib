@@ -27,6 +27,15 @@ is used. This pipeline requires a run environment with at least 10G of memory
 to run BQSR with a known sites file from dbSNP. You should provide a path where
 the output data should be written.
 
+## Testing
+
+There is an automated test included simply install Docker, make, and Python 2.7 for your 
+platform and do the following:
+
+    make test
+
+This will run a very small test SAM file.
+
 ## Running
 
 ```
