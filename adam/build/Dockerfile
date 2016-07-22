@@ -1,4 +1,4 @@
-FROM quay.io/ucsc_cgl/spark-and-maven:1.5.2.3.3.3-build
+FROM quay.io/ucsc_cgl/spark-and-maven:1.5.2.3.3.9
 
 MAINTAINER Frank Austin Nothaft, fnothaft@berkeley.edu
 
@@ -11,4 +11,4 @@ RUN git clone https://github.com/bigdatagenomics/adam.git
 WORKDIR /home/adam
 RUN git checkout c251f79c6bde3dce12e685c6cf03d5b1c30e9273
 
-RUN /opt/apache-maven-3.3.3/bin/mvn package -DskipTests
+RUN /opt/apache-maven-3.3.9/bin/mvn package -DskipTests
