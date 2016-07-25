@@ -70,7 +70,7 @@ def call_pipeline(args):
         subprocess.check_call(command)
     finally:
         stat = os.stat(args.output)
-        subprocess.check_call(['chown', '-R', '{}:{}'.format(stat.st_uid, stat.st_gid), os.path.dirname(args.output)])
+        subprocess.check_call(['chown', '-R', '{}:{}'.format(stat.st_uid, stat.st_gid), args.output])
         shutil.rmtree(work_dir)
 
 

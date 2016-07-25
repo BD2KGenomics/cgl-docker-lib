@@ -29,7 +29,7 @@ the output data should be written.
 
 ## Testing
 
-There is an automated test included simply install Docker, make, and Python 2.7 for your 
+There is an automated test included simply install Docker, make, and Python 2.7 for your
 platform and do the following:
 
     make test
@@ -51,3 +51,16 @@ docker run \
 The memory setting for this pipeline is used to set the amount of memory used
 by ADAM, and should be the amount of memory in gigabytes that you would like
 to allocate.
+
+## Running in Cromwell
+
+Before you attempt this make sure you have Cromwell installed and have built the
+container above using `make test` (or the container has been pushed to quay.io).
+
+Then make sure you update workflow.json so the paths are correct for your system.
+
+You can run this tool with a very simple WDL workflow using the following:
+
+    cromwell run workflow.wdl workflow.json
+
+Look for the output bam where you specified in the `workflow.json`.

@@ -1,0 +1,6 @@
+{
+  "wf.adam.in": "PWD/test/small.sam",
+  "wf.adam.knownSites": "PWD/test/small.vcf",
+  "wf.adam.mem": "1",
+  "wf.adam.out": "PWD/test/small.processed.bam"
+}

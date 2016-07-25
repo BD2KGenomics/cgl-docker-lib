@@ -15,8 +15,11 @@ push: build
 	docker push ${name}:${tag}
 	docker push ${name}:latest
 
-test: build
-	python test.py
+test: build workflow.json
+	python test.py -b
+
+workflow.json: workflow.json.template
+	sed -e "s:PWD:${PWD}:g" workflow.json.template > workflow.json
 
 clean:
-	-rm ${build_tool}
+	-rm ${build_tool} workflow.json

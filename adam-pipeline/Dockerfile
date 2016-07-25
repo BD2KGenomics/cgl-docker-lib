@@ -25,5 +25,5 @@ RUN cd /opt/adam-pipeline && make develop
 COPY wrapper.py /opt/adam-pipeline/
 COPY README.md /opt/adam-pipeline/
 
-ENTRYPOINT ["python", "/opt/adam-pipeline/wrapper.py"]
-CMD ["--help"]
+ENTRYPOINT ["/bin/bash", "-c"]
+CMD [ "python /opt/adam-pipeline/wrapper.py --help"]
