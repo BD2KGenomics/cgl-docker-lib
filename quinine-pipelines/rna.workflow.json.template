@@ -1,0 +1,6 @@
+{
+  "wf.rna.reads": "PWD/test/small.sam",
+  "wf.rna.transcriptome": "PWD/test/small.transcripts.gtf",
+  "wf.rna.mem": "1",
+  "wf.rna.out": "PWD/test/rna.txt"
+}

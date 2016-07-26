@@ -1,4 +1,4 @@
-FROM quay.io/ucsc_cgl/spark-and-maven:1.5.2.3.3.3-build
+FROM quay.io/ucsc_cgl/spark-and-maven:1.5.2.3.3.9
 
 MAINTAINER Frank Austin Nothaft, fnothaft@berkeley.edu
 
@@ -8,7 +8,7 @@ RUN git clone https://github.com/BD2KGenomics/conductor.git
 
 # build conductor
 WORKDIR /home/conductor
-RUN /opt/apache-maven-3.3.3/bin/mvn package \
+RUN /opt/apache-maven-3.3.9/bin/mvn package \
     -DskipTests \
     -Dhadoop.version=2.6.0 \
     -Dspark.version=1.5.2

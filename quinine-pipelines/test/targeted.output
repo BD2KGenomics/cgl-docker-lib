@@ -1,0 +1,30 @@
+READS	25	The number of reads.
+BASES	1875	The number of sequenced bases.
+PQCR	25	The number of reads that passed vendor quality checks.
+UPQR	25	The number of unique (not-duplicate) reads that passed vendor QC.
+MQ0R	25	The number of UPQR reads that had non-zero mapping quality.
+MQ0B	1875	The number of bases across all MQ0R reads.
+LQB	0	The number of bases that were below a quality score threshold.
+DUPEB	0	The number of bases in reads marked as duplicates.
+LOWMQB	0	The number of bases in reads mapped with MAPQ below a threshold.
+OLB	0	The number of bases in second-of-pair reads that overlap with their mate.
+%QCR	100%	The percentage of reads that passed vendor QC.
+%UPQR	100%	The percentage of unique reads that passed vendor QC.
+%LQB	0%	The percentage of bases that had low quality scores.
+%DB	0%	The percentage of bases that are in reads marked as duplicates.
+%LMQB	0%	The percentage of bases that are in reads with a low mapping quality.
+%OLB	0%	The percentage of bases that are in second-of-pair reads whose alignment overlaps their mate.
+MEDIAN	2.0	The median target coverage depth.
+MEAN	2.0	The (arithmetic) mean target coverage depth.
+PANELB	1050	The number of bases targeted by this panel.
+BAITB	1250	The number of bases covered by one or more bait.
+%OFT	20%	The percentage of baited bases that do not cover a targeted base.
+EFF	0.84	The efficiency of the panel: the fraction of baited bases that cover a targeted base.
+%C1	50	The percentage of targeted bases covered at 1 or higher.
+%C2	50	The percentage of targeted bases covered at 2 or higher.
+%C10	0	The percentage of targeted bases covered at 10 or higher.
+%C20	0	The percentage of targeted bases covered at 20 or higher.
+%C30	0	The percentage of targeted bases covered at 30 or higher.
+%C40	0	The percentage of targeted bases covered at 40 or higher.
+%C50	0	The percentage of targeted bases covered at 50 or higher.
+%C100	0	The percentage of targeted bases covered at 100 or higher.

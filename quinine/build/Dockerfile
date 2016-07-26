@@ -4,11 +4,11 @@ MAINTAINER Frank Austin Nothaft, fnothaft@berkeley.edu
 
 WORKDIR /home
 
-# clone adam
-RUN git clone https://github.com/bigdatagenomics/adam.git
+# clone quinine
+RUN git clone https://github.com/bigdatagenomics/quinine.git
 
-# build adam
-WORKDIR /home/adam
-RUN git checkout c251f79c6bde3dce12e685c6cf03d5b1c30e9273
+# build quinine
+WORKDIR /home/quinine
+RUN git checkout 2800f76fb66120a76de74c23ec928ef9231ad83c
 
 RUN /opt/apache-maven-3.3.9/bin/mvn package -DskipTests

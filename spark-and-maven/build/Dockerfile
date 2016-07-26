@@ -13,6 +13,6 @@ COPY download.sh /home/
 RUN sh /home/download.sh
 
 ENV PATH /opt/apache-spark/bin:$PATH
-
+ENV MAVEN_HOME /opt/apache-maven-3.3.9
 
 
