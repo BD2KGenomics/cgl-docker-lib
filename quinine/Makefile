@@ -29,6 +29,9 @@ clean:
 	rm -rf runtime/quinine ${build_tool}
 	docker rmi -f ${name}-build:${tag} ${name}:${tag}
 
+print_tag:
+	@echo ${tag}
+
 push: build
 	# Requires ~/.dockercfg 
 	docker push ${name}:${tag}

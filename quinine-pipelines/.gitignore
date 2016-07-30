@@ -1,3 +1,4 @@
+Dockerfile
 *.workflow.json
 cromwell-*
 WorkflowStore

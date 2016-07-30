@@ -1,4 +1,4 @@
-FROM quay.io/ucsc_cgl/quinine
+FROM quay.io/ucsc_cgl/quinine:QUININE_TAG
 
 MAINTAINER Frank Austin Nothaft, fnothaft@berkeley.edu
 
