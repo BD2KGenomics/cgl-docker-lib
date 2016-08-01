@@ -7,7 +7,7 @@ build_tool = runtime-container.DONE
 build_number ?= none
 git_commit ?= $(shell git rev-parse HEAD)
 name = quay.io/ucsc_cgl/quinine
-tag = 65bdfae289e2be6874108923e08ce073ce090a8e--${git_commit}
+tag = 2475aea0f800ce293dbf18e743c500a0cd51e403--${git_commit}
 
 # Steps
 build: ${build_output} ${build_tool}
