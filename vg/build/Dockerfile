@@ -20,6 +20,6 @@ WORKDIR /home
 RUN git clone --recursive https://github.com/vgteam/vg.git
 
 WORKDIR /home/vg
-RUN git checkout 1ab01ef6260b1ce279a6095b6cf986569babf2b9
+RUN git checkout 9aa20df8f71ebf67b0050e3c77db5f6e4cab256d
  
 RUN ./source_me.sh && make static
