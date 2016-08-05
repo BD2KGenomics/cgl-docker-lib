@@ -4,7 +4,7 @@ runtime_fullpath = $(realpath runtime)
 build_tool = runtime-container.DONE
 git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../vg | cut -f1 -d " ")
 name = quay.io/ucsc_cgl/vg
-tag = 1.4.0-960-g64573a5--${git_commit}
+tag = v1.4.0-1097-g1ab01ef--${git_commit}
 
 # Steps
 build: ${build_output} ${build_tool}
@@ -30,3 +30,4 @@ test: build
 clean:
 	-rm ${build_tool}
 	-rm ${build_output}
+	docker rmi -f ${name}:${tag}
