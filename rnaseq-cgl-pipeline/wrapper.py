@@ -1,102 +1,91 @@
-import argparse
-import os
-import shutil
-import subprocess
-import json
+from __future__ import print_function
 import logging
-from uuid import uuid4
+from pipelineWrapper import PipelineWrapper
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger()
 
 
-def call_pipeline(mount, args):
-    uuid = 'toil-rnaseq-' + str(uuid4())
-    work_dir = os.path.join(mount, uuid)
-    if not os.path.isdir(work_dir):
-        os.makedirs(work_dir)
-    os.environ['PYTHONPATH'] = '/opt/rnaseq-pipeline/src'
-    command = ['python', '-m', 'toil_scripts.rnaseq_cgl.rnaseq_cgl_pipeline',
-               os.path.join(mount, 'jobStore'),
-               '--retryCount', '1',
-               '--output-dir', mount,
-               '--workDir', work_dir,
-               '--star-index', 'file://' + args.star,
-               '--rsem-ref', 'file://' + args.rsem,
-               '--kallisto-index', 'file://' + args.kallisto,
-               '--sample-urls']
-    command.extend('file://' + x for x in args.samples)
-    if args.restart:
-        command.append('--restart')
-    try:
-        subprocess.check_call(command)
-    finally:
-        stat = os.stat(mount)
-        subprocess.check_call(['chown', '-R', '{}:{}'.format(stat.st_uid, stat.st_gid), mount])
-        shutil.rmtree(work_dir)
+desc = """
+Computational Genomics Lab, Genomics Institute, UC Santa Cruz
+Dockerized Toil RNA-seq pipeline
+
+RNA-seq fastqs are combined, aligned, and quantified with 2 different methods (RSEM and Kallisto)
+
+General Usage:
+docker run -v $(pwd):$(pwd) -v /var/run/docker.sock:/var/run/docker.sock \
+quay.io/ucsc_cgl/rnaseq-cgl-pipeline --samples sample1.tar
+
+Please see the complete documentation located at:
+https://github.com/BD2KGenomics/cgl-docker-lib/tree/master/rnaseq-cgl-pipeline
+or inside the container at: /opt/rnaseq-pipeline/README.md
 
 
-def main():
-    """
-    Please see the complete documentation located at:
-    https://github.com/BD2KGenomics/cgl-docker-lib/tree/master/rnaseq-cgl-pipeline
-    or in the container at:
-    /opt/rnaseq-pipeline/README.md
+Structure of RNA-Seq Pipeline (per sample)
 
-    All samples and inputs must be reachable via Docker "-v" mount points and use
-    the Destination path prefix.
-    """
-    # Define argument parser for
-    parser = argparse.ArgumentParser(description=main.__doc__, formatter_class=argparse.RawTextHelpFormatter)
-    parser.add_argument('--star', type=str, required=True,
-                        help='Absolute path to STAR index tarball.')
-    parser.add_argument('--rsem', type=str, required=True,
-                        help='Absolute path to rsem reference tarball.')
-    parser.add_argument('--kallisto', type=str, required=True,
-                        help='Absolute path to kallisto index (.idx) file.')
-    parser.add_argument('--samples', nargs='+', required=True,
-                        help='Absolute path(s) to sample tarballs.')
-    parser.add_argument('--restart', action='store_true', default=False,
-                        help='Add this flag to restart the pipeline. Requires existing job store.')
-    args = parser.parse_args()
-    # Get name of most recent running container (should be this one)
-    name = subprocess.check_output(['docker', 'ps', '--format', '{{.Names}}']).split('\n')[0]
-    # Get name of mounted volume
-    blob = json.loads(subprocess.check_output(['docker', 'inspect', name]))
-    mounts = blob[0]['Mounts']
-    # Ensure docker.sock is mounted correctly
-    sock_mount = [x['Source'] == x['Destination'] for x in mounts if 'docker.sock' in x['Source']]
-    if len(sock_mount) != 1:
-        raise IllegalArgumentException('Missing socket mount. Requires the following:'
-                                       'docker run -v /var/run/docker.sock:/var/run/docker.sock')
-    # Ensure formatting of command for 2 mount points
-    if len(mounts) == 2:
-        if not all(x['Source'] == x['Destination'] for x in mounts):
-            raise IllegalArgumentException('Docker Src/Dst mount points, invoked with the -v argument,'
-                                           'must be the same if only using one mount point aside from the '
-                                           'docker socket.')
-        work_mount = [x['Source'] for x in mounts if 'docker.sock' not in x['Source']]
-    else:
-        # Ensure only one mirror mount exists aside from docker.sock
-        mirror_mounts = [x['Source'] for x in mounts if x['Source'] == x['Destination']]
-        work_mount = [x for x in mirror_mounts if 'docker.sock' not in x]
-        if len(work_mount) > 1:
-            raise IllegalArgumentException('Too many mirror mount points provided, see documentation.')
-        if len(work_mount) == 0:
-            raise IllegalArgumentException('No required mirror mount point provided, see documentation.')
-    # Enforce file input standards
-    if not all(x.startswith('/') for x in args.samples):
-        raise IllegalArgumentException("Sample inputs must point to a file's full path, e.g. "
-                                       "'/full/path/to/sample1.tar'. You provided {}.".format(args.samples))
-    if not all(x.startswith('/') for x in [args.star, args.kallisto, args.rsem]):
-        raise IllegalArgumentException("Sample inputs must point to a file's full path, e.g. "
-                                       "'/full/path/to/sample1.tar'. You  provided {}.".format(args.samples))
-    call_pipeline(work_mount[0], args)
+              3 -- 4 -- 5
+             /          |
+  0 -- 1 -- 2 ---- 6 -- 8
+             \          |
+              7 ---------
 
-
-class IllegalArgumentException(Exception):
-    pass
-
-
+0 = Download sample
+1 = Unpack/Merge fastqs
+2 = CutAdapt (adapter trimming)
+3 = STAR Alignment
+4 = RSEM Quantification
+5 = RSEM Post-processing
+6 = Kallisto
+7 = FastQC
+8 = Consoliate output and upload to S3
+=======================================
+Dependencies
+Docker
+"""
 if __name__ == '__main__':
-    main()
+    pipeline = PipelineWrapper('toil-rnaseq', desc, 'star', 'rsem', 'kallisto')
+    # define arguments
+    with pipeline.arg_builder() as parser:
+        parser.add_argument('--samples', nargs='+', required=True,
+                        help='Absolute path(s) to sample tarballs.')
+        parser.add_argument('--star', type=str, default=None,
+                            help='Absolute path to STAR index tarball.')
+        parser.add_argument('--rsem', type=str, default=None,
+                            help='Absolute path to rsem reference tarball.')
+        parser.add_argument('--kallisto', type=str, default=None,
+                            help='Absolute path to kallisto index (.idx) file.')
+        parser.add_argument('--save-bam', action='store_true', default='false',
+                            help='If this flag is used, genome-aligned bam is written to output.')
+        parser.add_argument('--save-wiggle', action='store_true', default='false',
+                            help='If this flag is used, wiggle files (.bg) are written to output.')
+        parser.add_argument('--no-clean', action='store_true',
+                            help='If  this flag is used, temporary work directory is not cleaned.')
+        parser.add_argument('--resume', type=str, default=None,
+                            help='Pass the working directory that contains a job store to be '
+                                 'resumed.')
+        parser.add_argument('--cores', type=int, default=None,
+                            help='Will set a cap on number of cores to use, default is all '
+                                 'available cores.')
+    pipeline.config = ("""
+    star-index: file://{star}
+    kallisto-index: file://{kallisto}
+    rsem-ref: file://{rsem}
+    output-dir: {output_dir}
+    cutadapt: true
+    fastqc: false
+    fwd-3pr-adapter: AGATCGGAAGAG
+    rev-3pr-adapter: AGATCGGAAGAG
+    ssec:
+    gtkey:
+    wiggle: {save_wiggle}
+    save-bam: {save_bam}
+    ci-test:""")
+
+    with pipeline.command_builder() as (args, command):
+        if args.resume:
+            command.append('--restart')
+        if args.cores:
+            command.append('--maxCores={}'.format(args.cores))
+        command.append('--samples')
+        command.extend('file://' + x for x in args.samples)
+    pipeline.run()
