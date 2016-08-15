@@ -152,3 +152,6 @@ returned by Docker inspect isn't ordered.
 
 You can use whatever mount point you like for the samples and inputs _so long as they are not mirrored_ and
 you are consistent about using the destination path when passing in arguments to the container.
+
+## Slide pack
+https://docs.google.com/presentation/d/1TqsWB2sOOS_fcRB_unmn7AfMjMeV7xt5FGyqy1fr764/edit?usp=sharing
