@@ -72,7 +72,7 @@ if __name__ == '__main__':
     rsem-ref: file://{rsem}
     output-dir: {output_dir}
     cutadapt: true
-    fastqc: false
+    fastqc: true
     fwd-3pr-adapter: AGATCGGAAGAG
     rev-3pr-adapter: AGATCGGAAGAG
     ssec:
