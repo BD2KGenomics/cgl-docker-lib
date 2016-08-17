@@ -1,21 +1,28 @@
 # Definitions
-build_tool = runtime-container.DONE
-git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../rnaseq-cgl-pipeline | cut -f1 -d " ")
-name = quay.io/ucsc_cgl/rnaseq-cgl-pipeline
-tag = 2.0.8
+docker_versions = 1.7.0 1.7.1 1.8.0 1.8.1 1.9.0 1.9.1 1.10.0 1.10.1 1.10.3
+gen_directories = $(docker_versions:=.docker)
 
 build: ${build_tool}
 
-${build_tool}: Dockerfile-template.py
-	python Dockerfile-template.py ${name} ${tag} build
-	touch ${build_tool}
+%.docker: dockerver=$(@:.docker=)
+%.docker: Dockerfile.template Makefile.template
+	mkdir -p $@
+	sed -e "s:DOCKERVER:${dockerver}:g" Dockerfile.template > ${@}/Dockerfile
+	sed -e "s:DOCKERVER:${dockerver}:g" Makefile.template > ${@}/Makefile
+	cd $@ && ln -sf ../test.py
+
+generate: ${gen_directories}
+
+${build_tool}: generate
+	$(foreach subdir, $(gen_directories), cd $(subdir) && $(MAKE) build)
 
 push: build
 	# Requires ~/.dockercfg
-	python Dockerfile-template.py ${name} ${tag} push
+	$(foreach subdir, $(gen_directories), cd $(subdir) && $(MAKE) push)
 
-test: build
-	python test.py ${tag}
+test: build test.py
+	$(foreach subdir, $(gen_directories), cd $(subdir) && $(MAKE) test)
 
 clean:
-	-rm ${build_tool}
+	$(foreach subdir, $(gen_directories), cd $(subdir) && $(MAKE) clean)
+	-rm -rf ${gen_directories}
