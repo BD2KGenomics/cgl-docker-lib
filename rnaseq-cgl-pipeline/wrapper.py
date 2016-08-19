@@ -65,8 +65,7 @@ def generate_config(star_path, rsem_path, kallisto_path, output_dir, disable_cut
         wiggle: {save_wiggle}
         save-bam: {save_bam}
         ci-test:
-    """[1:].format(star_path=star_path, rsem_path=rsem_path, kallisto_path=kallisto_path, output_dir=output_dir,
-                   cutadapt=cutadapt, save_wiggle=save_wiggle, save_bam=save_bam))
+    """[1:].format(**locals()))
 
 
 class UserError(Exception):
