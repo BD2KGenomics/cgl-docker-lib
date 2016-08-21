@@ -8,7 +8,6 @@ import shutil
 import subprocess
 import sys
 import textwrap
-from glob import glob
 from uuid import uuid4
 
 logging.basicConfig(level=logging.INFO)
@@ -77,11 +76,6 @@ def require(expression, message):
         raise UserError('\n\n' + message + '\n\n')
 
 
-def check_for_input(tool_input, name):
-    require(tool_input, 'Cannot find {0} input, please use --{0} and provide full path to file.'.format(name))
-    return tool_input[0]
-
-
 def main():
     """
     Computational Genomics Lab, Genomics Institute, UC Santa Cruz
@@ -123,11 +117,11 @@ def main():
     parser = argparse.ArgumentParser(description=main.__doc__, formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('--samples', nargs='+', required=True,
                         help='Absolute path(s) to sample tarballs.')
-    parser.add_argument('--star', type=str, default=None,
+    parser.add_argument('--star', type=str, required=True,
                         help='Absolute path to STAR index tarball.')
-    parser.add_argument('--rsem', type=str, default=None,
+    parser.add_argument('--rsem', type=str, required=True,
                         help='Absolute path to rsem reference tarball.')
-    parser.add_argument('--kallisto', type=str, default=None,
+    parser.add_argument('--kallisto', type=str, required=True,
                         help='Absolute path to kallisto index (.idx) file.')
     parser.add_argument('--disable-cutadapt', action='store_true', default=False,
                         help='Cutadapt fails if samples are improperly paired. Use this flag to disable cutadapt.')
@@ -170,16 +164,6 @@ def main():
         mirror_mounts = [x['Source'] for x in mounts if x['Source'] == x['Destination']]
         work_mount = [x for x in mirror_mounts if 'docker.sock' not in x]
         require(len(work_mount) == 1, 'Wrong number of mirror mounts provided, see documentation.')
-    # Look for inputs in work directory
-    star = glob(os.path.join(work_mount[0], 'star*'))
-    rsem = glob(os.path.join(work_mount[0], 'rsem*'))
-    kallisto = glob(os.path.join(work_mount[0], 'kallisto*'))
-    if not args.star:
-        args.star = check_for_input(star, 'star')
-    if not args.rsem:
-        args.rsem = check_for_input(rsem, 'rsem')
-    if not args.kallisto:
-        args.kallisto = check_for_input(kallisto, 'kallisto')
     # If sample is given as relative path, assume it's in the work directory
     if not all(x.startswith('/') for x in args.samples):
         args.samples = [os.path.join(work_mount[0], x) for x in args.samples if not x.startswith('/')]
