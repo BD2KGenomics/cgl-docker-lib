@@ -9,6 +9,7 @@ import subprocess
 import sys
 import textwrap
 from uuid import uuid4
+from bd2k.util.exceptions import require
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger()
@@ -65,15 +66,6 @@ def generate_config(star_path, rsem_path, kallisto_path, output_dir, disable_cut
         save-bam: {save_bam}
         ci-test:
     """[1:].format(**locals()))
-
-
-class UserError(Exception):
-    pass
-
-
-def require(expression, message):
-    if not expression:
-        raise UserError('\n\n' + message + '\n\n')
 
 
 def main():
@@ -171,10 +163,10 @@ def main():
     # Enforce file input standards
     require(all(x.startswith('/') for x in args.samples),
             "Sample inputs must point to a file's full path, "
-            "e.g. '/full/path/to/sample1.tar'. You provided {}.".format(args.samples))
+            "e.g. '/full/path/to/sample1.tar'. You provided %s", str(args.samples))
     require(all(x.startswith('/') for x in [args.star, args.kallisto, args.rsem]),
             "Sample inputs must point to a file's full path, "
-            "e.g. '/full/path/to/sample1.tar'. You  provided {}.".format(args.samples))
+            "e.g. '/full/path/to/sample1.tar'. You provided %s", str(args.samples))
     # Output log information
     log.info('The work mount is: {}'.format(work_mount[0]))
     log.info('Samples to run: {}'.format('\t'.join(args.samples)))

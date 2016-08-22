@@ -19,6 +19,9 @@ RUN chmod u+x /usr/local/bin/docker
 # Install Toil
 RUN pip install toil==3.3.1
 
+# Install BPL
+RUN pip install bd2k-python-lib==1.14a1.dev29
+
 # Install toil-scripts
 RUN pip install toil-scripts==2.0.8
 
