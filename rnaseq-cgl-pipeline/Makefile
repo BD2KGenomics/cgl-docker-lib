@@ -14,7 +14,7 @@ build: $(build_tool)
 	cp wrapper.py ${@}/
 	cp README.md ${@}/
 
-generate: ${(gen_directories)
+generate: $(gen_directories)
 
 $(build_tool): generate
 	$(foreach subdir, $(gen_directories), cd $(subdir) && $(MAKE) build && cd ..;)
