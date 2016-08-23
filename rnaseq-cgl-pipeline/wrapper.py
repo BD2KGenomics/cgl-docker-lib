@@ -22,7 +22,8 @@ def call_pipeline(mount, args):
     config_path = os.path.join(work_dir, 'toil-rnaseq.config')
     job_store = os.path.join(args.resume, 'jobStore') if args.resume else os.path.join(work_dir, 'jobStore')
     with open(config_path, 'w') as f:
-        f.write(generate_config(args.star, args.rsem, args.kallisto, mount, args.save_bam, args.save_wiggle))
+        f.write(generate_config(args.star, args.rsem, args.kallisto, mount,
+                                args.disable_cutadapt, args.save_bam, args.save_wiggle))
     command = ['toil-rnaseq', 'run',
                job_store,
                '--config', config_path,
