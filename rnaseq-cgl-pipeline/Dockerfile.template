@@ -12,16 +12,18 @@ RUN apt-get update && apt-get install -y \
     apt-transport-https \
     ca-certificates
 
-# Get the 1.9.1 binary
-RUN wget https://get.docker.com/builds/Linux/x86_64/docker-1.9.1 -O /usr/local/bin/docker
+# Get the Docker binary
+RUN wget https://get.docker.com/builds/Linux/x86_64/docker-DOCKERVER -O /usr/local/bin/docker
 RUN chmod u+x /usr/local/bin/docker
 
 # Install Toil
-RUN pip install toil==3.3.0
+RUN pip install toil==3.3.1
 
-# Install refactored rnaseq pipeline
-RUN git clone https://github.com/BD2KGenomics/toil-scripts /opt/rnaseq-pipeline
-RUN cd /opt/rnaseq-pipeline && git reset --hard 77510fb075f5865050621968e2dc6b2ac8cf7c87
+# Install BPL
+RUN pip install bd2k-python-lib==1.14a1.dev29
+
+# Install toil-scripts
+RUN pip install toil-scripts==2.0.8
 
 COPY wrapper.py /opt/rnaseq-pipeline/
 COPY README.md /opt/rnaseq-pipeline/
