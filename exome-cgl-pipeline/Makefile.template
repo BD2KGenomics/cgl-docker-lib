@@ -1,0 +1,22 @@
+# Definitions
+build_tool = runtime-container.DONE
+name = quay.io/ucsc_cgl/exome-cgl-pipeline
+git_commit ?= $(shell git log --pretty=oneline -n 1 --../../exome-cgl-pipeline | cut -f1 -d " ")
+tag = 2.0.10--DOCKERVER--${git_commit}
+
+build: Dockerfile
+	docker build -t ${name}:${tag} .
+	docker tag -f ${name}:${tag} ${name}:latest
+	touch ${build_tool}
+
+push: build
+	# Requires ~/.dockercfg
+	docker push ${name}:${tag}
+	docker push ${name}:latest
+
+test: build
+	python test.py ${tag}
+
+clean:
+	docker rmi -f ${name}:${tag}
+	rm ${build_tool}
