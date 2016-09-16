@@ -35,10 +35,13 @@ def get_updated_tools(repos):
         tags = sum([x['tags'] for x in json_data['images'] if x['tags']], [])
         tags = {str(x).split('--')[1] for x in tags if '--' in x}
         # Fetch last commit hash for tool using `git log`
-        p = subprocess.Popen(['git', 'log', '--pretty=oneline', '-n', '1', '--', tool], stdout=subprocess.PIPE)
-        commit, comment = p.stdout.read().split(" ", 1)
-        if commit not in tags:
-            updated_tools.add(tool)
+        output = subprocess.check_output(['git', 'log', '--pretty=oneline', '-n', '1', '--', tool])
+        if output:
+            commit, comment = output.split(' ', 1)
+            if commit not in tags:
+                updated_tools.add(tool)
+        else:
+            print 'Skipping tool, as it does not exist in cgl-docker-lib: ' + tool
     return updated_tools
 
 
