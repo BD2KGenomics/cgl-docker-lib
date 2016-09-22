@@ -1,7 +1,5 @@
 FROM ubuntu:12.04
 
-MAINTAINER Frank Austin Nothaft
-
 # install necessary dependencies
 RUN apt-get update && \
     apt-get install -y python-dev \
@@ -11,11 +9,7 @@ RUN apt-get update && \
             python-virtualenv
 
 # create virtualenv and install s3am
-RUN virtualenv /opt/s3am && . /opt/s3am/bin/activate
-RUN pip install s3am
+RUN virtualenv /opt/s3am --never-download
+RUN /opt/s3am/bin/pip install s3am==2.0
 
-# add wrapper script
-WORKDIR /opt/
-ADD wrapper.sh /opt/wrapper.sh
-
-ENTRYPOINT ["bash", "+x", "/opt/wrapper.sh"]
+ENTRYPOINT ["/opt/s3am/bin/s3am"]

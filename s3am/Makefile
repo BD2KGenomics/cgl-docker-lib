@@ -1,14 +1,14 @@
-# Definitions
 build_tool = runtime-container.DONE
 name = quay.io/ucsc_cgl/s3am
-tag = 1.0a1
+git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../s3am | cut -f1 -d " ")
+tag = 2.0--${git_commit}
 
-# Steps
 build: ${build_output} ${build_tool}
 
 ${build_tool}: Dockerfile
 	docker build -t ${name}:${tag} .
-	docker tag -f ${name}:${tag} ${name}:latest
+	-docker rmi ${name}:latest
+	docker tag ${name}:${tag} ${name}:latest
 	touch ${build_tool}
 
 push: build
