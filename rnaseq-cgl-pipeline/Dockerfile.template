@@ -23,7 +23,7 @@ RUN pip install toil==3.3.1
 RUN pip install bd2k-python-lib==1.14a1.dev29
 
 # Install toil-scripts
-RUN pip install toil-scripts==2.0.8
+RUN pip install toil-scripts==2.0.10
 
 COPY wrapper.py /opt/rnaseq-pipeline/
 COPY README.md /opt/rnaseq-pipeline/

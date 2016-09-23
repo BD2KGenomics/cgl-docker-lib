@@ -1,5 +1,5 @@
 # Computational Genomics Lab, Genomics Institute, UC Santa Cruz
-### Running the CGL RNA-seq Pipeline Container: Release 2.0.8
+### Running the CGL RNA-seq Pipeline Container: Release 2.0.10
 
 This guide will walk through running the pipeline from start to finish. If there are any questions please contact
 John Vivian (jtvivian@gmail.com). If you find any errors or corrections please feel free to make a pull request.
@@ -33,7 +33,7 @@ Docker versions supported:
 
 You can pull a specific version of this pipeline by using the appropriate tag.
 
-`docker pull quay.io/ucsc_cgl/rnaseq-cgl-pipeline:<supported docker version>--2.0.8`
+`docker pull quay.io/ucsc_cgl/rnaseq-cgl-pipeline:<supported docker version>--2.0.10`
 
 ## Inputs
 
