@@ -80,13 +80,11 @@ docker run \
     -v $(pwd):$(pwd) \ # Work directory
     -v /var/run/docker.sock:/var/run/docker.sock \ # Required Docker socket
     quay.io/ucsc_cgl/rnaseq-cgl-pipeline \ # Name of the pipeline
-    --samples sample1.tar sample2.tar ... 
+    --star $(pwd)/starIndex_hg38_no_alt.tar.gz \
+    --kallisto $(pwd)/kallisto_hg38.idx \
+    --rsem $(pwd)/rsem_ref_hg38_no_alt.tar.gz \
+    --samples $(pwd)/sample1.tar $(pwd)/sample2.tar ... 
 ```
-
-The RSEM, STAR, and Kallisto inputs will be found automatically as long as they have "star", "rsem", and 
-"kallisto" in the name and are in the directory from which the pipeline is run.
-
-The samples do not need absolute paths if they are located in the work dir.
 
 ### Separate sample, input, and work directory locations
 
