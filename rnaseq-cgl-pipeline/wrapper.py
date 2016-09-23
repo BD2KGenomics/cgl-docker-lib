@@ -167,7 +167,7 @@ def main():
             "e.g. '/full/path/to/sample1.tar'. You provided %s", str(args.samples))
     require(all(x.startswith('/') for x in [args.star, args.kallisto, args.rsem]),
             "Sample inputs must point to a file's full path, "
-            "e.g. '/full/path/to/sample1.tar'. You provided %s", str(args.samples))
+            "e.g. '/full/path/to/kallisto_hg38.idx'.")
     # Output log information
     log.info('The work mount is: {}'.format(work_mount[0]))
     log.info('Samples to run: {}'.format('\t'.join(args.samples)))
