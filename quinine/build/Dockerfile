@@ -9,6 +9,6 @@ RUN git clone https://github.com/bigdatagenomics/quinine.git
 
 # build quinine
 WORKDIR /home/quinine
-RUN git checkout 2475aea0f800ce293dbf18e743c500a0cd51e403
+RUN git checkout a987006fdf38afadc9c6a22061885f8e105234f7
 
 RUN /opt/apache-maven-3.3.9/bin/mvn package -DskipTests
