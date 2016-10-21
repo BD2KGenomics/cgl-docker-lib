@@ -22,8 +22,6 @@ import json
 def get_updated_tools(repos):
     """
     Compare latest git commit hash of a tool to the existing tag on quay.io.
-    Since tools are tagged with the motif: <version>--<commit hash>, we can determine
-    what tools have been modified.
     """
     updated_tools = set()
     for tool in repos:
@@ -34,14 +32,34 @@ def get_updated_tools(repos):
         # Fetch quay.io tags and parse for commit hash
         tags = sum([x['tags'] for x in json_data['images'] if x['tags']], [])
         tags = {str(x).split('--')[1] for x in tags if '--' in x}
-        # Fetch last commit hash for tool using `git log`
-        output = subprocess.check_output(['git', 'log', '--pretty=oneline', '-n', '1', '--', tool])
+
+        # identify tools that will be built from make push dry run
+        output = subprocess.check_output(['make', '-n', 'push'], cwd=os.path.abspath(tool))
         if output:
-            commit, comment = output.split(' ', 1)
-            if commit not in tags:
-                updated_tools.add(tool)
+            lines = output.split('\n')
+            
+            for line in lines:
+                # make push may:
+                # - rebuild the tool
+                # - push a "latest" tag
+                #
+                # we're interested in the explicit version tag
+                if 'push' in line and not 'latest' in line:
+
+                    # we expect the push command to be "docker push toolname:tag", thus we're interested in the 3rd word
+                    push_cmd = line.split()
+                    assert(len(push_cmd) == 3, 'Saw badly formatted push command for %s (%r)' % (tool, push_cmd))
+
+                    # split the toolname/tag on the semicolon to get the tag
+                    push_tool_and_tag = push_cmd[2]
+                    push_tool, version = push_tool_and_tag.split(':', 1)
+                    assert(push_tool == tool, 'Tool name in push command (%s) did not match expected (%s).'.format(push_tool, tool))
+                    
+                    if version not in tags:
+                        updated_tools.add(tool)
         else:
             print 'Skipping tool, as it does not exist in cgl-docker-lib: ' + tool
+
     return updated_tools
 
 
