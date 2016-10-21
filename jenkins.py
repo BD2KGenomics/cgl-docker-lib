@@ -29,6 +29,7 @@ def get_updated_tools(repos):
     Compare latest git commit hash of a tool to the existing tag on quay.io.
     """
     updated_tools = set()
+    dryrun_cmd = ['make', '-n', 'push']
     for tool in repos:
         # Load API request for image
         response = requests.get('https://quay.io/api/v1/repository/ucsc_cgl/{}/image/'.format(tool))
@@ -41,7 +42,19 @@ def get_updated_tools(repos):
         _log.debug('Tool %s has %d tags on quay.io:\n%r', tool, len(tags), tags)
 
         # identify tools that will be built from make push dry run
-        output = subprocess.check_output(['make', '-n', 'push'], cwd=os.path.abspath(tool))
+        try:
+            output = subprocess.check_output(dryrun_cmd, cwd=os.path.abspath(tool))
+        except subprocess.CalledProcessError as cpe:
+            _log.error('Calling %r on tool %s failed with error code %d! Output:', 
+                       dryrun_cmd, tool, cpe.returncode)
+            output_lines = cpe.output.split('\n')
+
+            for line in output_lines:
+                _log.debug('%s/%r: %s', tool, dryrun_cmd, line)
+
+            # set a null output and we'll fall through this loop iteration
+            output = None
+
         if output:
             lines = output.split('\n')
             pushed_tags = []
@@ -63,8 +76,9 @@ def get_updated_tools(repos):
                     # split the toolname/tag on the semicolon to get the tag
                     push_tool_and_tag = push_cmd[2]
                     push_tool, version = push_tool_and_tag.split(':', 1)
-                    if push_tool != tool:
-                        _log.error('Tool name in push command (%s) did not match expected (%s).', push_tool, tool)
+                    quay_tool = "quay.io/ucsc_cgl/%s" % tool
+                    if push_tool != quay_tool:
+                        _log.error('Tool name in push command (%s) did not match expected (%s).', push_tool, quay_tool)
                     pushed_tags.append(version)
                     
                     if version not in tags:
