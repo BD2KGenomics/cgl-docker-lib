@@ -183,7 +183,7 @@ def main():
     updated_tools = get_updated_tools(repos)
     tools_to_build = (tools - repos).union(updated_tools)
     _log.info('Building %d tools out of %d: %s',
-              len(tools - repos), len(repos), '\n'.join(tools_to_build))
+              len(tools_to_build), len(repos), '\n'.join(tools_to_build))
     # Build, test, and push tools to quay.io/ucsc_cgl/
     cmds = [["make"], ["make", "test"]]
     errs = ['Tool: {}, failed to build', 'Tool: {}, failed unittest']
