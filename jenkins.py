@@ -34,6 +34,11 @@ def get_updated_tools(repos):
     updated_tools = set()
     dryrun_cmd = ['make', '-n', 'push']
     for tool in repos:
+        
+        if not os.path.isdir(os.path.abspath(tool)):
+            _log.warn('Tool %s does not exist in cgl-docker-lib. Skipping...', tool)
+            continue
+
         # Load API request for image
         response = requests.get('https://quay.io/api/v1/repository/ucsc_cgl/{}/image/'.format(tool))
         json_data = json.loads(response.text)
@@ -58,17 +63,6 @@ def get_updated_tools(repos):
             for line in output_lines:
                 _log.debug('%s/%r: %s', tool, dryrun_cmd, line)
 
-            _log.error('Skipping...')
-
-            # set a null output and we'll fall through this loop iteration
-            output = None
-
-        except Exception as e:
-
-            # we may catch other exceptions too, such as an OSError if chdir doesn't work
-            # let's just generically catch and log these here
-            _log.error('Caught exception when trying to call %r on tool %s:\n%r',
-                       dryrun_cmd, tool, e)
             _log.error('Skipping...')
 
             # set a null output and we'll fall through this loop iteration
