@@ -32,6 +32,7 @@ def get_updated_tools(repos):
     Compare latest git commit hash of a tool to the existing tag on quay.io.
     """
     updated_tools = set()
+    generate_cmd = ['make', 'generate']
     dryrun_cmd = ['make', '-n', 'push']
     for tool in repos:
         
@@ -49,6 +50,44 @@ def get_updated_tools(repos):
         tags = sum([x['tags'] for x in json_data['images'] if x['tags']], [])
         _log.log(5, 'Tool %s has %d tags on quay.io:\n%r', tool, len(tags), tags) # lower level than debug
 
+        # some tools rely on a "make generate" target
+        # due to the vaguarities of make, we need to call this before doing the push dry run
+        #
+        # the tl;dr is that tools that rely on the "make generate" target are running recursive make,
+        # and if "make generate" is not run before "make -n push", when "make push" tries to cd into
+        # the lower directories to recursively call make, those lower directories won't exist, and
+        # make will fail
+        try:
+            subprocess.check_output(generate_cmd,
+                                    cwd=os.path.abspath(tool),
+                                    stderr=subprocess.STDOUT)
+
+        except subprocess.CalledProcessError as cpe:
+
+            # we need to inspect the error message here.
+            #
+            # if the error message from make is that there's no generate target,
+            # then we're fine and can ignore the error.
+            #
+            # if the error is that "make generate" failed, then that's a whole
+            # different can of worms
+            if 'No rule to make target' in cpe.output:
+                
+                _log.log(5, 'No generate target for tool %s.', tool)
+                pass
+
+            else:
+
+                _log.error('Calling %r on tool %s failed with error code %d! Output:', 
+                           generate_cmd, tool, cpe.returncode)
+                output_lines = cpe.output.split('\n')
+                
+                for line in output_lines:
+                    _log.debug('%s/%r: %s', tool, generate_cmd, line)
+                    
+                _log.error('Skipping...')
+                continue
+                    
         # identify tools that will be built from make push dry run
         try:
             output = subprocess.check_output(dryrun_cmd,
