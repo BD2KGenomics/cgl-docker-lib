@@ -124,6 +124,7 @@ def get_updated_tools(repos):
                     push_cmd = line.split()
                     if len(push_cmd) != 3:
                         _log.error('Saw badly formatted push command for %s (%r)', tool, push_cmd)
+                        continue
 
                     # split the toolname/tag on the semicolon to get the tag
                     push_tool_and_tag = push_cmd[2]
