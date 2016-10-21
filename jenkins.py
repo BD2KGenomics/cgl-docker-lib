@@ -24,6 +24,9 @@ import requests
 _log = logging.getLogger(__name__)
 logging.basicConfig()
 
+# log all the things
+_log.setLevel(5)
+
 def get_updated_tools(repos):
     """
     Compare latest git commit hash of a tool to the existing tag on quay.io.
