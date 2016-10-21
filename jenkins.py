@@ -46,6 +46,7 @@ def get_updated_tools(repos):
             output = subprocess.check_output(dryrun_cmd,
                                              cwd=os.path.abspath(tool),
                                              stderr=subprocess.STDOUT)
+
         except subprocess.CalledProcessError as cpe:
             _log.error('Calling %r on tool %s failed with error code %d! Output:', 
                        dryrun_cmd, tool, cpe.returncode)
@@ -53,6 +54,19 @@ def get_updated_tools(repos):
 
             for line in output_lines:
                 _log.debug('%s/%r: %s', tool, dryrun_cmd, line)
+
+            _log.error('Skipping...')
+
+            # set a null output and we'll fall through this loop iteration
+            output = None
+
+        except Exception as e:
+
+            # we may catch other exceptions too, such as an OSError if chdir doesn't work
+            # let's just generically catch and log these here
+            _log.error('Caught exception when trying to call %r on tool %s:\n%r',
+                       dryrun_cmd, tool, e)
+            _log.error('Skipping...')
 
             # set a null output and we'll fall through this loop iteration
             output = None
