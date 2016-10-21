@@ -43,7 +43,9 @@ def get_updated_tools(repos):
 
         # identify tools that will be built from make push dry run
         try:
-            output = subprocess.check_output(dryrun_cmd, cwd=os.path.abspath(tool))
+            output = subprocess.check_output(dryrun_cmd,
+                                             cwd=os.path.abspath(tool),
+                                             stderr=subprocess.STDOUT)
         except subprocess.CalledProcessError as cpe:
             _log.error('Calling %r on tool %s failed with error code %d! Output:', 
                        dryrun_cmd, tool, cpe.returncode)
@@ -121,7 +123,9 @@ def run_make(tools_to_build, cmd, err):
     for tool in tools_to_build:
         _log.info('Running "%s" for tool %s.', cmd, tool)
         try:
-            subprocess.check_output(cmd, cwd=os.path.abspath(tool))
+            subprocess.check_output(cmd,
+                                    cwd=os.path.abspath(tool),
+                                    stderr=subprocess.STDOUT)
             _log.info('Running "%s" for tool %s succeeded!', cmd, tool)
         except subprocess.CalledProcessError as cpe:
             _log.error('Running "%s" for tool %s FAILED with code %d! Output:',
