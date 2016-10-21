@@ -25,7 +25,7 @@ _log = logging.getLogger(__name__)
 logging.basicConfig()
 
 # log all the things
-_log.setLevel(5)
+_log.setLevel(9)
 
 def get_updated_tools(repos):
     """
@@ -42,7 +42,7 @@ def get_updated_tools(repos):
 
         # Fetch quay.io tags and parse for commit hash
         tags = sum([x['tags'] for x in json_data['images'] if x['tags']], [])
-        _log.debug('Tool %s has %d tags on quay.io:\n%r', tool, len(tags), tags)
+        _log.log(5, 'Tool %s has %d tags on quay.io:\n%r', tool, len(tags), tags) # lower level than debug
 
         # identify tools that will be built from make push dry run
         try:
