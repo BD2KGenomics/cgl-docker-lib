@@ -1,6 +1,6 @@
 build_tool = runtime-container.DONE
 git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../bwakit | cut -f1 -d " ")
-name = quay.io/ucsc_cgl/bwakit
+name = quay.io/jpfeil/bwakit
 tag = 0.7.12--${git_commit}
 
 build: ${build_tool}
