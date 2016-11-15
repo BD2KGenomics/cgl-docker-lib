@@ -7,7 +7,8 @@ build: ${build_tool}
 
 ${build_tool}: Dockerfile
 	docker build -t ${name}:${tag} .
-	docker tag -f ${name}:${tag} ${name}:latest
+	-docker rmi ${name}:latest
+	docker tag ${name}:${tag} ${name}:latest
 	touch ${build_tool}
 
 push: build
@@ -20,4 +21,4 @@ test: build
 
 clean:
 	-rm ${build_tool}
-	docker rmi ${nametag}
+	docker rmi ${name}:${tag}
