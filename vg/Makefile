@@ -4,7 +4,7 @@ runtime_fullpath = $(realpath runtime)
 build_tool = runtime-container.DONE
 git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../vg | cut -f1 -d " ")
 name = quay.io/ucsc_cgl/vg
-tag = v1.4.0-1099-g9aa20df--${git_commit}
+tag = v1.4.0-1649-g8a28f7d--${git_commit}
 
 # Steps
 build: ${build_output} ${build_tool}

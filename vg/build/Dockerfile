@@ -1,11 +1,15 @@
-FROM ubuntu:15.10
+FROM ubuntu:14.04
 
 MAINTAINER Charles Markello, cmarkell@ucsc.edu
 
+# Install vg dependencies
 RUN apt-get update \
 	&& apt-get update && apt-get install -y \
+	build-essential \
 	gcc-4.9 \
 	g++-4.9 \
+	pkg-config \
+	sudo \
 	git \
 	make \
 	protobuf-compiler \
@@ -20,6 +24,8 @@ WORKDIR /home
 RUN git clone --recursive https://github.com/vgteam/vg.git
 
 WORKDIR /home/vg
-RUN git checkout 9aa20df8f71ebf67b0050e3c77db5f6e4cab256d
- 
+RUN git checkout 8a28f7df06989342c89fa0e9c729db64257188ba
+RUN make get-deps
+
+# Build vg 
 RUN ./source_me.sh && make static
