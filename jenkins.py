@@ -166,8 +166,7 @@ def get_repos():
     return repos
 
 
-# TODO: This is garbage. Fix this try/catch
-def run_make(tools_to_build, cmd, err):
+def run_make(tools_to_build, cmd, failedCommands):
     """
     For each tool, run a (make) command with an error message if it fails
     """
@@ -179,17 +178,13 @@ def run_make(tools_to_build, cmd, err):
                                     stderr=subprocess.STDOUT)
             _log.info('Running "%s" for tool %s succeeded!', cmd, tool)
         except subprocess.CalledProcessError as cpe:
+            failedCommands.append('Tool %s, command %r' % (tool, cmd))
             _log.error('Running "%s" for tool %s FAILED with code %d! Output:',
                        cmd, tool, cpe.returncode)
             output_lines = cpe.output.split('\n')
 
             for line in output_lines:
                 _log.debug('%s/%s: %s', tool, cmd, line)
-
-            if cmd == 'make':
-                raise RuntimeError, err.format(tool)
-            # If a test fails, an assertion will be thrown. Sometimes "make test" returns non-zero exit codes.
-            pass
 
 
 def make_repos_public(tools_to_build, credentials):
@@ -226,16 +221,25 @@ def main():
               len(tools_to_build), len(repos), '\n'.join(tools_to_build))
     # Build, test, and push tools to quay.io/ucsc_cgl/
     cmds = [["make"], ["make", "test"]]
-    errs = ['Tool: {}, failed to build', 'Tool: {}, failed unittest']
+    failedTools = []
     if push:
         cmds.append(["make", "push"])
-        errs.append('Tool: {}, failed push to quay.io')
-    for cmd, err in zip(*[cmds, errs]):
-        run_make(tools_to_build, cmd, err)
+    for cmd in cmds:
+        run_make(tools_to_build, cmd, failedTools)
     # TBD: Making repos public requires admin privileges which I'd rather not grant Jenkins
     if False:
         credentials = os.path.join(os.path.expanduser('~'), '.cgl-docker-lib')
         make_repos_public(tools_to_build, credentials=credentials)
+
+    if len(failedTools) > 0:
+        
+        # log which tools failed in a single place
+        _log.error("Building failed for %d commands:", len(failedTools))
+        for failure in failedTools:
+            _log.error(failure)
+        
+        # exit with a non-zero code
+        exit(1)
 
 
 def building_on_master():
