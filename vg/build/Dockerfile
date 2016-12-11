@@ -24,8 +24,9 @@ WORKDIR /home
 RUN git clone --recursive https://github.com/vgteam/vg.git
 
 WORKDIR /home/vg
-RUN git checkout 8a28f7df06989342c89fa0e9c729db64257188ba
+RUN git checkout ea8edfd613f151954daea9fdb66901553265a509
+RUN git submodule update --init --recursive
 RUN make get-deps
 
 # Build vg 
-RUN . ./source_me.sh && make static
+RUN ./source_me.sh && make static
