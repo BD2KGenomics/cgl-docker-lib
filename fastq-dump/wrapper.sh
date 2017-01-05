@@ -10,5 +10,5 @@ finish() {
 trap finish EXIT
 
 # Call tool with parameters
-./../opt/fastq-dump/sratoolkit.2.5.7-ubuntu64/bin/vdb-config --import /data/*.ngc /data && \
-./../opt/fastq-dump/sratoolkit.2.5.7-ubuntu64/bin/fastq-dump "$@"
+./../opt/fastq-dump/sratoolkit.2.8.1-ubuntu64/bin/vdb-config --import /data/*.ngc /data && \
+./../opt/fastq-dump/sratoolkit.2.8.1-ubuntu64/bin/fastq-dump "$@"
