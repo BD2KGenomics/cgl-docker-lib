@@ -4,12 +4,12 @@ runtime_fullpath = $(realpath runtime)
 build_tool = runtime-container.DONE
 git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../kallisto | cut -f1 -d " ")
 name = quay.io/ucsc_cgl/kallisto
-tag = 0.42.4--${git_commit}
+tag = 0.43.0--${git_commit}
 
 # Steps
 build:
 	docker build -t ${name}:${tag} .
-	docker tag -f ${name}:${tag} ${name}:latest
+	docker tag ${name}:${tag} ${name}:latest
 	touch ${build_tool}
 
 push: build
