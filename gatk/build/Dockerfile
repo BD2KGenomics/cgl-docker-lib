@@ -3,7 +3,7 @@ FROM java:8-jdk
 MAINTAINER John Vivian, jtvivian@gmail.com
 
 RUN apt-get update && apt-get install -y \
-	git \
+    wget \
 	maven \
 	default-jdk
 
@@ -11,11 +11,11 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /home
 
 # Get GATK source
-RUN git clone https://github.com/broadgsa/gatk-protected
 WORKDIR /home/gatk-protected
-
-# Check out the 3.5 tag
-RUN git checkout 3.5
+RUN wget --no-check-certificate https://github.com/broadgsa/gatk-protected/archive/3.7.zip \
+    && unzip 3.7.zip \
+    && rm 3.7.zip
+WORKDIR /home/gatk-protected/gatk-protected-3.7
 
 # Ça me rend fou!
 # which roughly translates to "I can't even...!"
@@ -26,5 +26,5 @@ RUN find . -name "*.java" -exec sed -i -e "s/import oracle.jrockit.jfr/\/\/impor
 # Build GATK
 RUN mvn -Ddisable.queue install
 
-# Move jar to current WORKDIR
-RUN mv /home/gatk-protected/target/GenomeAnalysisTK.jar /home/gatk-protected/gatk.jar
+# Move jar to currently mounted directory (file is used in the runtime image)
+RUN mv /home/gatk-protected/gatk-protected-3.7/target/GenomeAnalysisTK.jar /home/gatk-protected/gatk.jar
