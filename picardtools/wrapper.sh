@@ -10,4 +10,4 @@ finish() {
 trap finish EXIT
 
 # Call tool with parameters
-picard-tools "$@"
+java -jar /opt/picard-tools/picard.jar "$@"

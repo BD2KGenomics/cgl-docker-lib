@@ -1,13 +1,14 @@
 build_tool = runtime-container.DONE
 git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../picardtools | cut -f1 -d " ")
 name = quay.io/ucsc_cgl/picardtools
-tag = 1.95--${git_commit}
+tag = 2.9.0--${git_commit}
 
 build: ${build_tool}
 
 ${build_tool}: Dockerfile
 	docker build -t ${name}:${tag} .
-	docker tag -f ${name}:${tag} ${name}:latest
+	-docker rmi ${name}:latest
+	docker tag ${name}:${tag} ${name}:latest
 	touch ${build_tool}
 
 push: build
