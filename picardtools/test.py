@@ -9,7 +9,7 @@ class TestPicardTools(unittest.TestCase):
 
     def test_docker_call(self):
         out, err = check_docker_output(tool='quay.io/ucsc_cgl/picardtools')
-        self.assertTrue('picard-tools' in out)
+        self.assertTrue('USAGE: PicardCommandLine' in out)
 
 def check_docker_output(tool):
     command = 'docker run ' + tool
