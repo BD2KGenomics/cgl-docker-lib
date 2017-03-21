@@ -8,7 +8,7 @@ import unittest
 class TestBWAKIT(unittest.TestCase):
 
     def test_docker_call(self):
-        out, err = check_docker_output(tool='quay.io/ucsc_cgl/bwakit:0.7.12')
+        out, err = check_docker_output(tool='quay.io/ucsc_cgl/bwakit')
         self.assertTrue('Map paired-end reads to GRCh38+ALT+decoy+HLA and perform HLA typing:' in out)
 
 def check_docker_output(tool):
