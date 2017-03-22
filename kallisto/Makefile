@@ -9,6 +9,7 @@ tag = 0.43.1--${git_commit}
 # Steps
 build:
 	docker build -t ${name}:${tag} .
+	-docker rmi -f ${name}:latest
 	docker tag ${name}:${tag} ${name}:latest
 	touch ${build_tool}
 
