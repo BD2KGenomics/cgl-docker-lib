@@ -21,7 +21,7 @@ RUN apt-get update  && apt-get install -y \
 WORKDIR /docker
 RUN git clone https://github.com/pachterlab/kallisto.git
 WORKDIR /docker/kallisto
-RUN git checkout a2318033f4fe09858860d7ca7b0ec4df34d17372
+RUN git checkout 1e0e11288558ad88af198ec4f5302129c249b44f
 RUN mkdir build
 WORKDIR /docker/kallisto/build
 RUN cmake .. && \
