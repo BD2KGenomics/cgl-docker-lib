@@ -1,6 +1,6 @@
 build_tool = runtime-container.DONE
 git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../apache-spark-master | cut -f1 -d " ")
-nametag = quay.io/ucsc_cgl/apache-spark-master:1.6.3--${git_commit}
+nametag = quay.io/ucsc_cgl/apache-spark-master:2.1.1--${git_commit}
 
 build: ${build_tool}
 
