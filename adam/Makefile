@@ -7,7 +7,7 @@ build_tool = runtime-container.DONE
 build_number ?= none
 git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../adam ../spark-and-maven | cut -f1 -d " ")
 name = quay.io/ucsc_cgl/adam
-tag = c251f79c6bde3dce12e685c6cf03d5b1c30e9273--${git_commit}
+tag = 50d29af4a65d51f6db75361e1ddf32c12a9e149a--${git_commit}
 
 # Steps
 build: ${build_output} ${build_tool}

@@ -4,7 +4,7 @@ build_path = build
 runtime_path = runtime
 git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../spark-and-maven | cut -f1 -d " ")
 name = quay.io/ucsc_cgl/spark-and-maven
-tag = 1.6.3.3.3.9--${git_commit}
+tag = 2.1.0.3.3.9--${git_commit}
 
 # Steps
 build: ${build_tool}

@@ -1,4 +1,4 @@
-FROM quay.io/ucsc_cgl/spark-and-maven:1.5.2.3.3.9
+FROM quay.io/ucsc_cgl/spark-and-maven:2.1.0.3.3.9
 
 MAINTAINER Frank Austin Nothaft, fnothaft@berkeley.edu
 
