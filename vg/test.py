@@ -9,7 +9,7 @@ class TestVG(unittest.TestCase):
 
     def test_docker_call(self):
         out, err = check_docker_output(tool='quay.io/ucsc_cgl/vg')
-        self.assertTrue('Program: vg' in out)
+        self.assertTrue('variation graph tool' in out)
 
 def check_docker_output(tool):
     command = 'docker run ' + tool
