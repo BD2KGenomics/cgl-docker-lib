@@ -8,17 +8,18 @@ name = quay.io/ucsc_cgl/kallisto_sc
 tag = 0469873--${git_commit}
 
 # Steps
-build:
+docker:
 	docker build -t ${name}:${tag} .
+	-docker rmi ${name}:latest
 	docker tag ${name}:${tag} ${name}:latest
 	touch ${build_tool}
 
-push: build
+push: docker
 	# Requires ~/.dockercfg
 	docker push ${name}:${tag}
 	docker push ${name}:latest
 
-test: build
+test: docker
 	python test.py
 
 clean:

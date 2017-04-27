@@ -2,6 +2,7 @@ FROM quay.io/ucsc_cgl/kallisto:0.43.0--276c5998c2c7f5b6d5e100e6aba914b53d5425ce
 MAINTAINER Trevor Pesout, tpesout@ucsc.edu
 
 # get python libs (and their dependencies)
+RUN apt-get -y update
 RUN apt-get -y install pkg-config libpng-dev libjpeg8-dev libfreetype6-dev  python-tk libblas-dev liblapack-dev libatlas-base-dev gfortran
 RUN pip install numpy matplotlib scipy scikit-learn==0.16.1
 
