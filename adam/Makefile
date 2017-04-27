@@ -13,13 +13,15 @@ tag = c251f79c6bde3dce12e685c6cf03d5b1c30e9273--${git_commit}
 build: ${build_output} ${build_tool}
 
 ${build_output}: ${build_path}/Dockerfile
-	cd ${build_path} && docker build -no-cache -t ${name}-build:${tag} . 
+	cd ${build_path} && docker build -t ${name}-build:${tag} . 
 	echo ${runtime_fullpath}
 	docker run -v ${runtime_fullpath}:/data ${name}-build:${tag} cp -r /home/adam /data/adam
 	docker run -v ${runtime_fullpath}:/data ${name}-build:${tag} cp -r /opt/apache-spark /data/apache-spark
 
 ${build_tool}: ${build_output} ${runtime_path}/Dockerfile 
 	cd ${runtime_path} && docker build -t ${name}:${tag} .
+	-docker rmi ${name}:latest
+	docker tag ${name}:${tag} ${name}:latest
 	touch ${build_tool}
 
 test: build
