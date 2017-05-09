@@ -11,14 +11,14 @@ RUN apt-get update && apt-get install --yes \
     apt-utils \
     zlib1g-dev \
     vim-common \
-    git
+    git \
+    wget
 
 # Compile and install STAR
 WORKDIR /tmp 
-RUN git clone https://github.com/alexdobin/STAR.git
-WORKDIR /tmp/STAR
-RUN git checkout STAR_2.4.2a
-WORKDIR /tmp/STAR/source
+RUN wget https://github.com/alexdobin/STAR/archive/2.5.3a.tar.gz
+RUN tar -xzf 2.5.3a.tar.gz
+WORKDIR /tmp/STAR-2.5.3a/source
 RUN make STAR 
 RUN mv STAR /usr/local/bin/
 
