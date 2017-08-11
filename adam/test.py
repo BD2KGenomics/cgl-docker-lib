@@ -8,7 +8,7 @@ import unittest
 class TestADAM(unittest.TestCase):
 
     def test_docker_call(self):
-        out, err = check_docker_output(tool='quay.io/ucsc_cgl/adam:49b614d')
+        out, err = check_docker_output(tool='quay.io/ucsc_cgl/adam')
         self.assertTrue('ADAM_MAIN=org.bdgenomics.adam.cli.ADAMMain' in out)
         self.assertTrue('view : View certain reads from an alignment-record file.' in out)
 

@@ -1,6 +1,6 @@
-FROM quay.io/ucsc_cgl/apache-spark-common:1.5.2--9885dd3736e1c59552e2a821b5a4690a5d23f1ab
+FROM quay.io/ucsc_cgl/apache-spark-common:1.6.3--f21484f0191eb362b07170211124413cb28c17f7
 
-MAINTAINER Audrey Musselman-Brown, almussel@ucsc.edu
+MAINTAINER Frank Austin Nothaft, fnothaft@berkeley.edu
 
 # set spark worker port
 ENV SPARK_WORKER_PORT 7075
