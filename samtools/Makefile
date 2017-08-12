@@ -1,7 +1,7 @@
 build_tool = runtime-container.DONE
-git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../samtools-1.3 | cut -f1 -d " ")
+git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../samtools | cut -f1 -d " ")
 name = quay.io/ucsc_cgl/samtools
-tag = 1.3--${git_commit}
+tag = 1.5--${git_commit}
 
 build: ${build_tool}
 

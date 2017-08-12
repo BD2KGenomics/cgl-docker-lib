@@ -3,24 +3,23 @@ FROM ubuntu:14.04
 
 # File Author / Maintainer
 MAINTAINER John Vivian, jtvivian@gmail.com
-# Original Author: Saulo Alves Aflitos <sauloal@gmail.com>
 
-################## BEGIN INSTALLATION ######################
 RUN apt-get update && \
     apt-get install -y \
       libncurses5-dev \
       libncursesw5-dev \
       build-essential \
       zlib1g-dev \
+      libbz2-dev \
+      liblzma-dev \
       wget && \
     apt-get clean && \
     apt-get purge && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-
-ENV ZIP=samtools-1.3.tar.bz2
-ENV URL=https://github.com/samtools/samtools/releases/download/1.3/
-ENV FOLDER=samtools-1.3
+ENV ZIP=samtools-1.5.tar.bz2
+ENV URL=https://github.com/samtools/samtools/releases/download/1.5/
+ENV FOLDER=samtools-1.5
 ENV DST=/tmp
 
 RUN wget $URL/$ZIP -O $DST/$ZIP && \
@@ -31,9 +30,6 @@ RUN wget $URL/$ZIP -O $DST/$ZIP && \
     make install && \
     cd / && \
     rm -rf $DST/$FOLDER
-
-# File Author / Maintainer
-MAINTAINER Saulo Alves Aflitos <sauloal@gmail.com>
 
 RUN mkdir /opt/samtools
 COPY wrapper.sh /opt/samtools/
