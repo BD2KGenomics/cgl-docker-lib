@@ -1,7 +1,0 @@
-{
-  "wf.targeted.reads": "PWD/test/small.sam",
-  "wf.targeted.bait": "PWD/test/small.bait.bed",
-  "wf.targeted.targets": "PWD/test/small.targets.bed",
-  "wf.targeted.mem": "1",
-  "wf.targeted.out": "PWD/test/targeted.txt"
-}
