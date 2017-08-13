@@ -69,12 +69,21 @@ def get_updated_tools(repos):
             # if the error message from make is that there's no generate target,
             # then we're fine and can ignore the error.
             #
+            # if the error is that the makefile wasn't found, then the tool was in
+            # a prior revision of cgl-docker-lib, but has since been deleted, and
+            # we can skip the tool
+            #
             # if the error is that "make generate" failed, then that's a whole
             # different can of worms
             if 'No rule to make target' in cpe.output:
                 
                 _log.log(5, 'No generate target for tool %s.', tool)
                 pass
+
+            elif 'No targets specified and no makefile found' in cpe.output:
+
+                _log.log(5, 'Tool %s has been removed from cgl-docker-lib.', tool)
+                continue
 
             else:
 
