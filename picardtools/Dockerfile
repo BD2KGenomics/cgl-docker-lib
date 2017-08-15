@@ -8,7 +8,7 @@ RUN  apt-get update \
 
 WORKDIR /opt/picard-tools
 
-RUN wget -O /opt/picard-tools/picard.jar --no-check-certificate https://github.com/broadinstitute/picard/releases/download/2.9.0/picard.jar
+RUN wget -O /opt/picard-tools/picard.jar --no-check-certificate https://github.com/broadinstitute/picard/releases/download/2.10.9/picard.jar
 COPY wrapper.sh /opt/picard-tools/
 
 WORKDIR /data
