@@ -43,10 +43,7 @@ RUN cmake .. && make
 # Copy to /usr/local/bin because there's no make install rule
 RUN cp pizzly /usr/local/bin
 
-RUN mkdir /opt/pizzly
-COPY wrapper.sh /opt/pizzly/
-
+# Boilerplate
 RUN mkdir /data
 WORKDIR /data
-
 ENTRYPOINT ["pizzly"]
