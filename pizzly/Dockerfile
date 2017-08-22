@@ -49,4 +49,4 @@ COPY wrapper.sh /opt/pizzly/
 RUN mkdir /data
 WORKDIR /data
 
-ENTRYPOINT ["sh", "/opt/pizzly/wrapper.sh"]
+ENTRYPOINT ["pizzly"]
