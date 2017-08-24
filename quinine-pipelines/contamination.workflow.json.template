@@ -1,7 +1,0 @@
-{
-  "wf.contamination.reads": "PWD/test/contaminated.sam",
-  "wf.contamination.population_vcf": "PWD/test/population.vcf",
-  "wf.contamination.sample_vcf": "PWD/test/call.vcf",
-  "wf.contamination.mem": "1",
-  "wf.contamination.out": "PWD/test/contamination.txt"
-}

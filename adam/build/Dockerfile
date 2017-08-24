@@ -7,8 +7,12 @@ WORKDIR /home
 # clone adam
 RUN git clone https://github.com/bigdatagenomics/adam.git
 
+ENV MAVEN_OPTS "-Xmx2g"
+
 # build adam
 WORKDIR /home/adam
-RUN git checkout c251f79c6bde3dce12e685c6cf03d5b1c30e9273
+RUN git checkout 50d29af4a65d51f6db75361e1ddf32c12a9e149a
+RUN ./scripts/move_to_spark_2.sh
+RUN ./scripts/move_to_scala_2.11.sh
 
-RUN /opt/apache-maven-3.3.9/bin/mvn package -DskipTests -Dspark.version=1.6.3
+RUN /opt/apache-maven-3.3.9/bin/mvn package -DskipTests

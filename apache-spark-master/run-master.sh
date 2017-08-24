@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mkdir /ephemeral/spark
+mkdir /mnt/ephemeral/spark
 
 /opt/apache-spark/sbin/start-master.sh
 

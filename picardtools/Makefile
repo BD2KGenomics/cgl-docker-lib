@@ -1,7 +1,7 @@
 build_tool = runtime-container.DONE
 git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../picardtools | cut -f1 -d " ")
 name = quay.io/ucsc_cgl/picardtools
-tag = 2.9.0--${git_commit}
+tag = 2.10.9--${git_commit}
 
 build: ${build_tool}
 

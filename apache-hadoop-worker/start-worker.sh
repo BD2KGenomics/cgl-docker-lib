@@ -5,7 +5,7 @@ HADOOP_CONF_DIR=${HADOOP_PREFIX}/etc/hadoop
 ln -s ${HADOOP_PREFIX} /usr/local/hadoop
 
 # make a directory in the mounted volume
-mkdir /ephemeral/hdfs
+mkdir /mnt/ephemeral/hdfs
 
 # overwrite hostname in conf
 if [ $# -ne 0 ]; then
