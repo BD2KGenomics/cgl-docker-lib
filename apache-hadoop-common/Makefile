@@ -5,7 +5,7 @@ runtime_fullpath = "${PWD}/${runtime_path}"
 build_output = apache-hadoop-common
 build_number ?= none
 git_commit ?= $(shell git rev-parse HEAD)
-nametag = quay.io/ucsc_cgl/apache-hadoop-common:2.6.2
+nametag = quay.io/ucsc_cgl/apache-hadoop-common:2.7.4
 build_tool = runtime-container.DONE
 
 build: ${build_output} ${build_tool}
