@@ -4,7 +4,7 @@ runtime_fullpath = $(realpath runtime)
 build_tool = runtime-container.DONE
 git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../hera | cut -f1 -d " ")
 name = quay.io/ucsc_cgl/hera
-tag = 1.0.1--${git_commit}
+tag = 1.1--${git_commit}
 
 # Steps
 build:
