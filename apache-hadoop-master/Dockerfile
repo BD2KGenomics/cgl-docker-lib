@@ -1,4 +1,4 @@
-FROM quay.io/ucsc_cgl/apache-hadoop-common:2.7.4
+FROM quay.io/ucsc_cgl/apache-hadoop-common
 
 ###
 # Much of this is lifted from
