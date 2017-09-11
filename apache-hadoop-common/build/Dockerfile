@@ -15,9 +15,11 @@ RUN apt-get update && \
 
 # pull down hadoop common jar
 RUN mkdir /opt/apache-hadoop && \
-  curl http://apache.osuosl.org/hadoop/common/hadoop-2.6.2/hadoop-2.6.2.tar.gz \
+  curl http://apache.osuosl.org/hadoop/common/hadoop-2.7.4/hadoop-2.7.4.tar.gz \
   | tar --strip-components=1 -xzC /opt/apache-hadoop
 RUN chmod -R ugoa+rw /opt/apache-hadoop/share/hadoop/*/tomcat
+RUN chmod -R ugoa+r /opt/apache-hadoop
+RUN rm -rf /opt/apache-hadoop/src/
 
 # check out sequenceiq/hadoop-docker repo
 WORKDIR /opt/

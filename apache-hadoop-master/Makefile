@@ -1,23 +1,28 @@
 build_tool = runtime-container.DONE
-nametag = quay.io/ucsc_cgl/apache-hadoop-master:2.6.2
+name = quay.io/ucsc_cgl/apache-hadoop-master
+git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../apache-hadoop-common ../apache-hadoop-master | cut -f1 -d " ")
+tag = 2.7.4--${git_commit}
 
 build: ${build_tool}
 
 ${build_tool}: Dockerfile start-master.sh
 	# has apache-hadoop-common been built yet? if not, build it
 	# if it has been built, this command won't do anything.
-	cd ../apache-hadoop-common && make build
+	cd ../apache-hadoop-common && $(MAKE) build
 	
 	# build the runtime container
-	docker build -t ${nametag} .
+	docker build -t ${name}:${tag} .
+	-docker rmi ${name}:latest
+	docker tag ${name}:${tag} ${name}:latest
 	touch ${build_tool}
 
 clean:
 	rm -rf ${build_tool}
-	docker rmi -f ${nametag}
+	docker rmi -f ${name}:${tag}
 
 test: build
 
 push: build
 	# Requires ~/.dockercfg 
-	docker push ${nametag}
+	docker push ${name}:${tag}
+	docker push ${name}:latest
