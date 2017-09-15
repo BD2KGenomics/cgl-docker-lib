@@ -8,7 +8,7 @@ build_tool = runtime-container.DONE
 build_number ?= none
 git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../spark-and-maven ../deca | cut -f1 -d " ")
 name = quay.io/ucsc_cgl/deca
-tag = ea74eb84322ea120a1fc8d1fa5b50b094d86da73--${git_commit}
+tag = 0.1.0--${git_commit}
 
 # Steps
 build: ${build_output} ${build_tool}
@@ -24,7 +24,7 @@ ${spark_output}: ${build_output}
 
 ${build_tool}: ${build_output} ${spark_output} ${runtime_path}/Dockerfile 
 	cd ${runtime_path} && docker build -t ${name}:${tag} .
-	docker tag ${name}:${tag} ${name}:latest
+	docker tag -f ${name}:${tag} ${name}:latest
 	touch ${build_tool}
 
 test: build
