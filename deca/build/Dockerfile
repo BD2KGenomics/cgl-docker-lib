@@ -5,10 +5,11 @@ MAINTAINER Frank Austin Nothaft, fnothaft@berkeley.edu
 WORKDIR /home
 
 # clone deca
-RUN git clone https://github.com/mlinderm/deca.git
+WORKDIR /home/
+RUN git clone https://github.com/bigdatagenomics/deca.git
 
 # build deca
 WORKDIR /home/deca
-RUN git checkout ea74eb84322ea120a1fc8d1fa5b50b094d86da73
+RUN git checkout deca-parent-0.1.0
 
 RUN /opt/apache-maven-3.3.9/bin/mvn package -DskipTests

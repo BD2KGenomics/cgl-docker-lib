@@ -9,7 +9,7 @@ class TestDECA(unittest.TestCase):
 
     def test_docker_call(self):
         out, err = check_docker_output(tool='quay.io/ucsc_cgl/deca:latest')
-        self.assertTrue('DECA' in out)
+        self.assertTrue('Deca' in out)
 
 def check_docker_output(tool):
     command = 'docker run ' + tool
