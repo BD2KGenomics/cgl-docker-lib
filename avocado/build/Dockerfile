@@ -5,11 +5,10 @@ MAINTAINER Frank Austin Nothaft, fnothaft@berkeley.edu
 WORKDIR /home
 
 # clone avocado
-RUN git clone https://github.com/fnothaft/avocado.git
+RUN git clone https://github.com/bigdatagenomics/avocado.git
 
 # build avocado
 WORKDIR /home/avocado
-RUN git checkout issues/252-adam-0.23.0
 RUN ./scripts/move_to_spark_2.sh
 RUN ./scripts/move_to_scala_2.11.sh
 
