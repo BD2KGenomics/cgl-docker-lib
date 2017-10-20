@@ -19,6 +19,10 @@ RUN git checkout tags/hera-v1.1
 RUN chmod +x build.sh
 RUN ./build.sh
 
+# Fix missing import in hera_build
+RUN awk 'NR==2 {print "import os"} 1' /hera/build/hera_build > /hera/build/foo
+RUN mv /hera/build/foo /hera/build/hera_build; chmod +x /hera/build/hera_build
+
 # Boilerplate
 RUN mkdir -p /data
 WORKDIR /data
