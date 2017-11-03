@@ -7,7 +7,7 @@ mirror=$(python -c "from urllib2 import urlopen; import json; print json.load( u
 
 # pull down spark
 mkdir /opt/apache-spark
-curl ${mirror}spark/spark-2.1.1/spark-2.1.1-bin-hadoop2.6.tgz \
+curl ${mirror}spark/spark-2.1.2/spark-2.1.2-bin-hadoop2.6.tgz \
   | tar --strip-components=1 -xzC /opt/apache-spark
 
 # we rely on apache maven > 3.1.1 to build ADAM, so we can't use the
