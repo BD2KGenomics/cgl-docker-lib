@@ -16,9 +16,6 @@ ENV MAVEN_OPTS "-Xmx2g"
 # build mango
 WORKDIR /home/mango
 
-RUN ./scripts/move_to_spark_2.sh
-RUN ./scripts/move_to_scala_2.11.sh
-
 RUN /opt/apache-maven-3.3.9/bin/mvn package -DskipTests
 
 # remove git libraries to avoid permission errors when copying
