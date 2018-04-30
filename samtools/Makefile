@@ -1,13 +1,14 @@
 build_tool = runtime-container.DONE
 git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../samtools | cut -f1 -d " ")
 name = quay.io/ucsc_cgl/samtools
-tag = 1.5--${git_commit}
+tag = 1.8--${git_commit}
 
 build: ${build_tool}
 
 ${build_tool}: Dockerfile
 	docker build -t ${name}:${tag} .
-	docker tag -f ${name}:${tag} ${name}:latest
+	-docker tag -f ${name}:${tag} ${name}:latest
+	-docker tag ${name}:${tag} ${name}:latest
 	touch ${build_tool}
 
 push: build

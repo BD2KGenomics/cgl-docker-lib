@@ -17,9 +17,9 @@ RUN apt-get update && \
     apt-get purge && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-ENV ZIP=samtools-1.5.tar.bz2
-ENV URL=https://github.com/samtools/samtools/releases/download/1.5/
-ENV FOLDER=samtools-1.5
+ENV ZIP=samtools-1.8.tar.bz2
+ENV URL=https://github.com/samtools/samtools/releases/download/1.8/
+ENV FOLDER=samtools-1.8
 ENV DST=/tmp
 
 RUN wget $URL/$ZIP -O $DST/$ZIP && \
