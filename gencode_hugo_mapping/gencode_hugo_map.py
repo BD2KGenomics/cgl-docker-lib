@@ -21,7 +21,8 @@ def replace_gene_names(table, gene_mappings):
             keyerrors += 1
             table.drop(table[table['gene_id'] == gene_id].index, inplace=True)
     print "Number of unmapped genes: {}, of {} total genes.".format(keyerrors, len(table['gene_id']))
-    print "{}% of genes succesfully mapped.".format(100 * round(1 - (keyerrors / len(table['gene_id'])), 4))
+    map_perc = 100 * round(1 - (keyerrors / len(table['gene_id'])), 4) if len(table['gene_id']) != 0 else 0
+    print "{}% of genes succesfully mapped.".format(map_perc)
     table['gene_id'] = gene_names
 
     # Change name from gene_id to gene_name
@@ -46,7 +47,8 @@ def replace_isoform_names(table, isoform_mappings, tabs=True):
             keyerrors += 1
             table.drop(table[table[name] == transcript_id].index, inplace=True)
     print "Number of unmapped isoforms: {}, of {} total genes.".format(keyerrors, len(table[name]))
-    print "{}% of isoforms succesfully mapped.".format(100 * round(1 - (keyerrors / len(table[name])), 4))
+    map_perc = 100 * round(1 - (keyerrors / len(table[name])), 4) if len(table[name]) != 0 else 0
+    print "{}% of isoforms succesfully mapped.".format(map_perc)
     table[name] = isoform_names
 
     # Change name from transcript_id to transcript_name
