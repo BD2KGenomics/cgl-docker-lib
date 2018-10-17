@@ -9,7 +9,7 @@ class TestCutadapt(unittest.TestCase):
 
     def test_docker_call(self):
         out, err = check_docker_output(tool='quay.io/ucsc_cgl/cutadapt')
-        self.assertTrue('cutadapt version 1.9' in out)
+        self.assertTrue('cutadapt version 1.18' in out)
 
 def check_docker_output(tool):
     command = 'docker run ' + tool
