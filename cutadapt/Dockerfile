@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y \
         build-essential \
         python-pip
 
-RUN pip install cutadapt
+RUN pip install cutadapt==1.18
 
 # Boilerplate
 RUN mkdir /opt/cutadapt
