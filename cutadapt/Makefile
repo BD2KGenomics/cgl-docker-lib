@@ -3,7 +3,7 @@ runtime_fullpath = $(realpath runtime)
 build_tool = runtime-container.DONE
 git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../cutadapt | cut -f1 -d " ")
 name = quay.io/ucsc_cgl/cutadapt
-tag = 1.9--${git_commit}
+tag = 1.18--${git_commit}
 
 build:
 	docker build -t ${name}:${tag} .
