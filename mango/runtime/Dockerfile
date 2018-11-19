@@ -20,23 +20,32 @@ ENV PYSPARK_SUBMIT_ARGS "--jars ${ASSEMBLY_DIR}/${ASSEMBLY_JAR} --driver-class-p
 ENV PYTHONPATH ${SPARK_HOME}/python:${SPARK_HOME}/python/lib/py4j-0.10.4-src.zip
 
 #environment variables PYSPARK_PYTHON and PYSPARK_DRIVER_PYTHON
-ENV PYSPARK_PYTHON /usr/bin/python
-ENV  PYSPARK_DRIVER_PYTHON /usr/bin/python
-
+ENV PYSPARK_PYTHON /usr/bin/python3
 
 # Install make and pip/python dependencies
 RUN apt-get update && apt-get install -y \
   git \
   make \
-  python-pip \
+  python3-pip \
   npm \
   nodejs \
   python-tk
 
+# alias python to python3.6
+RUN alias pip=pip3
+RUN alias python=python3
+RUN echo '#!/bin/bash\npython3 "$@"' > /usr/bin/python && \
+    chmod +x /usr/bin/python
+
+RUN echo '#!/bin/bash\npip3 "$@"' > /usr/bin/pip && \
+    chmod +x /usr/bin/pip
+
+RUN pip
 RUN ln -s /usr/bin/nodejs /usr/bin/node
 
 # set permissions for running npm. Required for mango-viz
 RUN npm config set bdgenomics.mango.pileup:unsafe-perm
+
 
 # prepare mango-viz and mango-python
 WORKDIR /opt/cgl-docker-lib/mango/mango-python
