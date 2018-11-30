@@ -9,7 +9,7 @@ class TestMango(unittest.TestCase):
 
     def test_docker_call_browser(self):
         out, err = check_docker_output(tool='quay.io/ucsc_cgl/mango')
-        self.assertTrue('Using SPARK_SUBMIT=' in out)
+        self.assertTrue('Using spark-submit=' in out)
         self.assertTrue('Argument "reference" is required' in out)
 
     def test_docker_call_notebook(self):
