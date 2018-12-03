@@ -26,14 +26,17 @@ ENV PYSPARK_PYTHON /usr/bin/python3
 RUN apt-get update && apt-get install -y \
   git \
   make \
+  python3.5 \
   python3-pip \
   npm \
   nodejs \
   python-tk
 
+
 # alias python to python3.6
 RUN alias pip=pip3
 RUN alias python=python3
+
 RUN echo '#!/bin/bash\npython3 "$@"' > /usr/bin/python && \
     chmod +x /usr/bin/python
 
