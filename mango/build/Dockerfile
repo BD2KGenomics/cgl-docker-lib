@@ -13,21 +13,18 @@ WORKDIR /home
 RUN git clone https://github.com/bigdatagenomics/mango.git
 ENV MAVEN_OPTS "-Xmx2g"
 
-RUN apt-get update && apt-get install -y \
-  unzip \
-  npm \
-  nodejs
+# install curl to get nodejs script
+RUN apt-get update && apt-get install -y curl
+
+# get nodejs v6.X
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+
+RUN apt-get install -y nodejs
 
 # build mango
 WORKDIR /home/mango
+RUN git checkout c85b5d2178dbf7ec84cee20c56c57493524d510e # 0.0.3-SNAPSHOT
 RUN /opt/apache-maven-3.3.9/bin/mvn clean package -DskipTests
-RUN ls /home/mango/mango-cli/src/main/webapp/resources
-
-# where is node_modules?
-RUN mkdir /home/mango/mango-assembly/target/test
-WORKDIR /home/mango/mango-assembly/target
-RUN unzip mango-assembly-0.0.3-SNAPSHOT.jar -d /home/mango/mango-assembly/target/test
-RUN ls test/resources/node_modules/pileup
 
 # remove git libraries to avoid permission errors when copying
 RUN rm -rf /home/mango/.git

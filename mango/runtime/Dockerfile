@@ -15,7 +15,6 @@ ENV SPARK_HOME /opt/cgl-docker-lib/apache-spark
 
 # put mango jar on the pyspark path for packaging
 ENV ASSEMBLY_DIR /opt/cgl-docker-lib/mango/mango-assembly/target
-RUN ls /opt/cgl-docker-lib/mango/mango-cli/src/main/webapp/resources
 
 ENV ASSEMBLY_JAR "$(ls -1 "$ASSEMBLY_DIR" | grep "^mango-assembly[0-9A-Za-z\_\.-]*\.jar$" | grep -v javadoc | grep -v sources || true)"
 ENV PYSPARK_SUBMIT_ARGS "--jars ${ASSEMBLY_DIR}/${ASSEMBLY_JAR} --driver-class-path ${ASSEMBLY_DIR}/${ASSEMBLY_JAR} pyspark-shell"
@@ -26,16 +25,22 @@ ENV PYTHONPATH ${SPARK_HOME}/python:${SPARK_HOME}/python/lib/py4j-0.10.4-src.zip
 #environment variables PYSPARK_PYTHON and PYSPARK_DRIVER_PYTHON
 ENV PYSPARK_PYTHON /usr/bin/python3
 
-# Install make and pip/python dependencies
 RUN apt-get update && apt-get install -y \
-  git \
-  make \
-  python3.5 \
-  python3-pip \
-  npm \
-  nodejs \
-  python-tk
+   git \
+   make \
+   python3.5 \
+   python3-pip \
+   python-tk \
+   curl
 
+# get nodejs v8.X
+RUN apt-cache policy nodejs
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN apt-cache policy nodejs
+
+
+# Install make and pip/python dependencies
+RUN apt-get install -y nodejs
 
 # alias python to python3.6
 RUN alias pip=pip3
@@ -47,12 +52,8 @@ RUN echo '#!/bin/bash\npython3 "$@"' > /usr/bin/python && \
 RUN echo '#!/bin/bash\npip3 "$@"' > /usr/bin/pip && \
     chmod +x /usr/bin/pip
 
-RUN pip
-RUN ln -s /usr/bin/nodejs /usr/bin/node
-
 # set permissions for running npm. Required for mango-viz
 RUN npm config set bdgenomics.mango.pileup:unsafe-perm
-
 
 # prepare mango-viz and mango-python
 WORKDIR /opt/cgl-docker-lib/mango/mango-python
