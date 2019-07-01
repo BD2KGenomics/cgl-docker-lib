@@ -6,6 +6,8 @@ MAINTAINER Alyssa Morrow, akmorrow@berkeley.edu
 RUN mkdir /opt/cgl-docker-lib
 COPY mango /opt/cgl-docker-lib/mango
 
+WORKDIR /opt/cgl-docker-lib/mango
+
 # copy spark
 COPY apache-spark /opt/cgl-docker-lib/apache-spark
 
@@ -13,6 +15,8 @@ ENV SPARK_HOME /opt/cgl-docker-lib/apache-spark
 
 # put mango jar on the pyspark path for packaging
 ENV ASSEMBLY_DIR /opt/cgl-docker-lib/mango/mango-assembly/target
+RUN ls /opt/cgl-docker-lib/mango/mango-cli/src/main/webapp/resources
+
 ENV ASSEMBLY_JAR "$(ls -1 "$ASSEMBLY_DIR" | grep "^mango-assembly[0-9A-Za-z\_\.-]*\.jar$" | grep -v javadoc | grep -v sources || true)"
 ENV PYSPARK_SUBMIT_ARGS "--jars ${ASSEMBLY_DIR}/${ASSEMBLY_JAR} --driver-class-path ${ASSEMBLY_DIR}/${ASSEMBLY_JAR} pyspark-shell"
 
