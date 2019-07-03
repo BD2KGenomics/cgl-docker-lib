@@ -7,7 +7,7 @@ build_tool = runtime-container.DONE
 build_number ?= none
 git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../mango | cut -f1 -d " ")
 name = quay.io/ucsc_cgl/mango
-tag = 0.0.1--${git_commit}
+tag = 0.0.3--${git_commit}
 
 
 # Steps
